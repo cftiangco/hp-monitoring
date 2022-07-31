@@ -2,7 +2,7 @@
 <div x-data="addUser">
     <section>
         <div class="h-16 w-full bg-white shadow rounded flex justify-between items-center">
-            <input type="text" x-model="search" x-on:change="searchUser"placeholder="Search..." class="ml-3 bg-gray-50 outline-none border px-3 py-1 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
+            <input type="text" x-model="search" x-on:change="searchUser" placeholder="Search..." class="ml-3 bg-gray-50 outline-none border px-3 py-1 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
             <div class="flex justify-end mx-5 text-sm">
                 <button type="submit" @click="isModalOpen = true" class="bg-blue-400 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-blue-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -80,11 +80,10 @@
         </div>
     </section>
 
-    <section x-init="console.log(users)" class="mt-5">
-
+    <section class="mt-5" x-init="console.log(users)">
         <div class="w-full bg-white p-4 rounded shadow">
-            <table class="table-auto w-full text-left rounded mt-3">
-                <thead class="border-b">
+            <table id="table_id" class="display">
+                <thead>
                     <tr>
                         <th>Last Name</th>
                         <th>First Name</th>
@@ -95,7 +94,7 @@
                 </thead>
                 <tbody>
                     <template x-for="user in users">
-                        <tr class="hover:bg-gray-100 hover:font-semibold">
+                        <tr>
                             <td x-text="user.lastname"></td>
                             <td x-text="user.firstname"></td>
                             <td x-text="user.username"></td>
@@ -109,7 +108,6 @@
                 </tbody>
             </table>
         </div>
-
     </section>
 
 </div>

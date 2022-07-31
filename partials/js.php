@@ -1,4 +1,8 @@
 <script>
+    $(document).ready(function() {
+        $('#table_id').DataTable();
+    });
+
     document.addEventListener('alpine:init', () => {
         Alpine.data('addUser', () => ({
             errors: [],
@@ -16,7 +20,7 @@
                     .then((response) => response.json())
                     .then((data) => {
                         this.users = data.data;
-                        console.log(this.users)
+                        console.log(data.data)
                     });
             },
             onSave() {
