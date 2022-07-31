@@ -17,4 +17,8 @@ class User extends main {
         return $this->getById($this->db->lastInsertId());
     }
 
+    public function search($query) {
+        return $this->db->query("SELECT * FROM users WHERE lastname LIKE '%$query%' OR firstname LIKE '%$query%' ")->fetchAll(PDO::FETCH_OBJ);
+    }
+
 }

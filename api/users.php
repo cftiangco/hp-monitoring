@@ -29,5 +29,12 @@ if(isset($_GET['action']) && $_GET['action'] == "getusers") {
         'data' => $user->fetchAll()
     ]);
 }
+if(isset($_GET['action']) && $_GET['action'] == "search") {
+    $user = new User();
+    echo json_encode([
+        'status' => 201,
+        'data' => $user->search($_GET['query'])
+    ]);
+}
 
 

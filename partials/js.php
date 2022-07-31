@@ -9,14 +9,15 @@
             password: '',
             confirmPassword: '',
             role: '1',
-            users:[],
+            users: [],
+            search: '',
             init() {
                 fetch('api/users.php?action=getusers')
-                .then((response) => response.json())
-                .then((data) => {
-                    this.users = data;
-                    console.log(this.users)
-                });
+                    .then((response) => response.json())
+                    .then((data) => {
+                        this.users = data.data;
+                        console.log(this.users)
+                    });
             },
             onSave() {
 
@@ -52,9 +53,9 @@
                         password: this.password,
                     };
 
-                    postData('api/users.php?action=create',payload)
+                    postData('api/users.php?action=create', payload)
                         .then((data) => {
-                            if(data.status === 201) {
+                            if (data.status === 201) {
                                 console.log(data);
                                 this.isModalOpen = false;
                                 return;
@@ -63,6 +64,18 @@
 
                 }
             },
+            searchUser() {
+                if (this.search !== "") {
+                    fetch(`api/users.php?action=search&query=${this.search}`)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            this.users = data.data;
+                            console.log(data)
+                        });
+                } else {
+                    this.init();
+                }
+            }
         }));
     });
 
