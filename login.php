@@ -50,13 +50,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/x-icon" href="assets/images/main-logo.png">
     <title>HP Monitoring System / Login</title>
 </head>
-<body>
+<body class="font-mono">
     <div class="grid grid-cols-1 lg:grid-cols-2">
 
         <div class="h-screen w-full hidden lg:flex border-r flex-col justify-center items-center gap-y-2 bg-gray-100">
-            <h1 class="text-4xl font-bold text-gray-700 text-center">Household Profiling Monitoring System <br/>Brgy.Marinig Heath Center</h1>
+            <h1 class="text-4xl text-gray-700 text-center"><span class="text-green-600 font-bold">Household Profiling Monitoring System</span> <br/><span class="text-xl">Barangay Marinig Heath Center</span></h1>
             <div>
                 <img src="assets/images/main-logo2.png" alt="Main Logo">
             </div>
@@ -64,7 +65,7 @@
 
         <div class="h-screen bg-gray-50 lg:bg-white">
             <div class="flex flex-col items-center justify-center h-full gap-y-10">
-                <h1 class="text-2xl font-bold text-gray-700 text-center">LOGIN</h1>
+                <h1 class="text-2xl font-bold text-gray-700 text-center text-yellow-500">LOGIN</h1>
                 <?php if(count($errors) > 0): ?>
                     <ul class="flex flex-col gap-y-0 list-disc">
                         <?php foreach($errors as $error): ?>
@@ -85,7 +86,7 @@
                     </div>
                     
                     <div>
-                        <button type="submit" name="login" class="bg-blue-400 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-blue-300">
+                        <button type="submit" name="login" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
                             </svg>

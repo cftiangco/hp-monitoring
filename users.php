@@ -118,9 +118,9 @@ $users = $user->fetchAll();
         <div class="h-16 w-full bg-white shadow rounded flex justify-between items-center">
             <h4 class="mx-5 font-semibold">Users Account</h4>
             <div class="flex justify-end mx-5 text-sm">
-                <button type="submit" @click="openModal()" class="bg-blue-400 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-blue-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                <button type="submit" @click="openModal()" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
                     </svg>
                     <span>Add User</span>
                 </button>
@@ -138,15 +138,15 @@ $users = $user->fetchAll();
     </section>
 
     <section x-show="isModalOpen" x-cloak>
-        <div class="h-screen w-full bg-gray-600 top-0 left-0 right-0 bg-opacity-75 absolute flex flex-row justify-center items-center z-50">
+        <div class="h-full w-full bg-gray-600 top-0 left-0 right-0 bg-opacity-75 absolute flex flex-row justify-center items-center z-50">
             <div class="bg-white rounded shadow">
-                <div class="border-b p-3 flex justify-between items-center bg-blue-400 text-white font-semibold">
+                <div class="border-b p-3 flex justify-between items-center bg-green-600 text-white font-semibold">
                     <h4>User Form</h4>
                     <svg xmlns="http://www.w3.org/2000/svg" @click="isModalOpen = false" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </div>
-                <div class="p-3 max-full overflow-scroll">
+                <div class="p-3 max-full">
                     <form action="">
 
                         <div class="text-xs text-red-400" x-show="errors.length > 0">
@@ -189,7 +189,7 @@ $users = $user->fetchAll();
                         </div>
 
                         <div class="flex justify-end">
-                            <button type="button" @click="onSave" class="bg-blue-400 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-blue-300">
+                            <button type="button" @click="onSave" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                                 </svg>
@@ -223,6 +223,14 @@ $users = $user->fetchAll();
                             <td><?= $user['username'] ?></td>
                             <td><?= $user['role_id'] == 1 ? 'User' : 'Admin' ?></td>
                             <td class="flex gap-x-1">
+
+                                <button type="button" @click="() => onDelete(<?= $user['id'] ?>)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
+                                    </svg>
+                                    <span>Delete</span>
+                                </button>
+
                                 <button type="button" @click="() => onEdit({
                                     id:<?= $user['id'] ?>,
                                     firstname:'<?= $user['firstname'] ?>',
@@ -235,12 +243,7 @@ $users = $user->fetchAll();
                                     </svg>
                                     <span>Edit</span>
                                 </button>
-                                <button type="button" @click="() => onDelete(<?= $user['id'] ?>)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                    </svg>
-                                    <span>Delete</span>
-                                </button>
+                                
                             </td>
                         </tr>
                     <?php endforeach; ?>

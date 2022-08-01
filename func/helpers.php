@@ -1,5 +1,41 @@
 <?php
 
+$yesNo = [
+    'Yes',
+    'No'
+];
+
+$familTypes = [
+    'A',
+    'B',
+    'C',
+    'D'
+];
+
+$toiletTypes = [
+    'Water-sealed',
+    'Open pit/Antipolo',
+];
+
+$dwellingUnits = [
+    'Concrete',
+    'Semi-concrete',
+    'Nipa/Bamboo',
+    'Wood',
+    'Barong-barong'
+];
+
+$waterSources = [
+    'Waterworks System',
+    'Artesian Well (Bomba/jetmatic)/Deep well',
+    'Spring (Bukal)',
+];
+
+$gender = [
+    'M',
+    'F'
+];
+
 function extractPayload() {
     $json = file_get_contents('php://input',true);
     return json_decode($json,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
