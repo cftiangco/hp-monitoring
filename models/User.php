@@ -1,6 +1,6 @@
 <?php
 
-require_once('./../utils/main.php');
+require_once(dirname(__FILE__,2) . '/utils/main.php');
 
 class User extends main {
     
@@ -10,11 +10,16 @@ class User extends main {
         parent::__construct();
     }
 
-    public function insert($payload) {
-        return $this->deleteById(22);
-        $stmt = $this->db->prepare("INSERT INTO users (firstname,lastname,username,pword,role_id) VALUES (?,?,?,?,?)");
+    public function update($payload) {
+        $stmt = $this->db->prepare("UPDATE users SET firstname = :firstname,lastname=:lastname,username=:username,role_id=:role_id WHERE id = :id");
         $stmt->execute($payload);
-        return $this->getById($this->db->lastInsertId());
+        return true;
+    }
+
+    public function login($username,$password) {
+        $user = $this->db->query("SELECT * FROM users WHERE username = '$username' ")->fetch(PDO::FETCH_OBJ);
+
+        return $user;
     }
 
     public function search($query) {

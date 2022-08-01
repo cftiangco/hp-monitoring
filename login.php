@@ -1,3 +1,48 @@
+<?php 
+    session_start();
+
+    if(isset($_SESSION['user_id'])) {
+        header('Location: index.php');
+        exit();
+    }
+
+    require_once(dirname(__FILE__) . '/models/User.php');
+    require_once(dirname(__FILE__) . '/func/helpers.php');
+    $user = new User();
+
+    $errors = [];
+
+    if(isset($_POST['login'])) {
+       $errors = [];
+       if($_POST['username'] === "") {
+            array_push($errors,"Username is required field");
+       }
+
+       if($_POST['password'] === "") {
+            array_push($errors,"Password is required field");
+       }
+
+       if(count($errors) === 0) {
+            $result = $user->login($_POST['username'],$_POST['password']);
+            if(!$result) {
+                array_push($errors,"The username that you've entered doesn't belong to an account");
+            } else {
+                if(checkPassword($_POST['password'],$result->pword)) {
+                    userSession($result);
+                    header('Location: index.php');
+                    exit();
+                } else {
+                    array_push($errors,"Incorrect Password");
+                }
+            }
+       }
+    }
+
+    function checkPassword($loginPassword,$sytemPassword) {
+        return md5($loginPassword) === $sytemPassword;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,25 +54,38 @@
 </head>
 <body>
     <div class="grid grid-cols-1 lg:grid-cols-2">
-        <div class="bg-green-100 h-screen hidden lg:block"></div>
-        
-        <div class="h-screen">
-            <div class="flex flex-col items-center justify-center h-full">
-                <h2>Login</h2>
-                <form action="">
 
+        <div class="h-screen w-full hidden lg:flex border-r flex-col justify-center items-center gap-y-2 bg-gray-100">
+            <h1 class="text-4xl font-bold text-gray-700 text-center">Household Profiling Monitoring System <br/>Brgy.Marinig Heath Center</h1>
+            <div>
+                <img src="assets/images/main-logo2.png" alt="Main Logo">
+            </div>
+        </div>
+
+        <div class="h-screen bg-gray-50 lg:bg-white">
+            <div class="flex flex-col items-center justify-center h-full gap-y-10">
+                <h1 class="text-2xl font-bold text-gray-700 text-center">LOGIN</h1>
+                <?php if(count($errors) > 0): ?>
+                    <ul class="flex flex-col gap-y-0 list-disc">
+                        <?php foreach($errors as $error): ?>
+                                <li class="text-red-400"><?= $error ?></li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+
+                <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST">
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="">Username</label>
-                        <input type="text" placeholder="Enter username" class="bg-gray-50 outline-none border px-3 py-2 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="text" placeholder="Enter username" name="username" class="bg-gray-50 outline-none border px-3 py-2 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="">Password</label>
-                        <input type="text" placeholder="Enter password" class="bg-gray-50 outline-none border px-3 py-2 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="password" placeholder="Enter password" name="password" class="bg-gray-50 outline-none border px-3 py-2 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
                     
                     <div>
-                        <button type="submit" class="bg-blue-400 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-blue-300">
+                        <button type="submit" name="login" class="bg-blue-400 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-blue-300">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
                             </svg>
