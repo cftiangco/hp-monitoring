@@ -35,7 +35,7 @@ $required = false;
     members:[],
     member_id:0,
     init() {
-        fetch('api/members.php?action=fetch')
+        fetch(`api/members.php?action=fetch&survey_id=${<?= $_GET['id'] ?>}`)
             .then((response) => response.json())
             .then((data) => {
                 this.members = data.data;
@@ -162,6 +162,13 @@ $required = false;
                 });
         } 
     },
+    truncateString(str, num) {
+        if (str.length > num) {
+            return str.slice(0, num) + '...';
+        } else {
+            return str;
+        }
+    }
 }">
     <section>
         <div class="h-12 w-full bg-green-600 text-white shadow rounded flex justify-between items-center">
@@ -185,7 +192,7 @@ $required = false;
             </div>
 
             <div class="mx-5 w-full mt-5">
-                <table class="table-auto w-full text-start">
+                <table class="table-auto w-full text-start text-sm">
                     <thead class="text-left">
                         <tr>
                             <th>Relationship</th>
@@ -194,8 +201,8 @@ $required = false;
                             <th>Kapanganakan</th>
                             <th>Edad</th>
                             <th>Nag-aaral</th>
-                            <th>Trabaho</th>
-                            <th>Buwanang Sahod</th>
+                            <th>4PS Member</th>
+                            <th>Scholarship</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -208,14 +215,14 @@ $required = false;
                                 <td x-text="moment(member.birthday).format('MM-DD-YYYY')"></td>
                                 <td x-text="member.age"></td>
                                 <td x-text="member.studying"></td>
-                                <td x-text="member.occupation">IT</td>
-                                <td x-text="member.salary"></td>
+                                <td x-text="member.forps_member"></td>
+                                <td x-text="truncateString(member.scholarship_member,15)"></td>
                                 <td class="flex gap-x-1">
                                     <button type="button" @click="handleDelete(member.id)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
                                         </svg>
-                                        <span>Delete</span>
+                                        <span class="hidden lg:block">Delete</span>
                                     </button>
                                     <button type="button" @click="handleEdit({
                                             member_id:member.id,
@@ -241,7 +248,7 @@ $required = false;
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
-                                        <span>Edit</span>
+                                        <span class="hidden lg:block">Edit</span>
                                     </button>
                                 </td>
                             </tr>

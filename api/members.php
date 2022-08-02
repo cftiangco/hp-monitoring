@@ -77,7 +77,7 @@ if(isset($_GET['action']) && $_GET['action'] == "fetch") {
 
     $member = new Member();
     
-    $result = $member->fetchAll("ORDER BY type_id,created_at");
+    $result = $member->fetchAllBySurveyId($_GET['survey_id']);
 
     if($result) {
         echo json_encode([

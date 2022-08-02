@@ -10,6 +10,10 @@ class Member extends main {
         parent::__construct();
     }
 
+    public function fetchAllBySurveyId($id) {
+        return $this->db->query("SELECT * FROM members WHERE survey_id = $id ORDER BY type_id,created_at")->fetchAll();
+    }
+
     public function update($payload) {
         $stmt = $this->db->prepare("UPDATE members SET 
             survey_id = :survey_id,

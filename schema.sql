@@ -58,6 +58,7 @@ CREATE TABLE surveys(
 
 CREATE TABLE members(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    type_id SMALLINT DEFAULT 1,
     survey_id INT,
     fullname VARCHAR(150),
     birthday DATE,
@@ -73,5 +74,7 @@ CREATE TABLE members(
 	disability VARCHAR(1),
     disability_type VARCHAR(200),
     sex VARCHAR(1),
+    forps_member VARCHAR(1),
+    scholarship_member VARCHAR(200),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
