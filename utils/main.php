@@ -29,8 +29,8 @@ class main
         return $this->db->lastInsertId();
     }
 
-    public function fetchAll() {
-        return $this->db->query("SELECT * FROM $this->table")->fetchAll();
+    public function fetchAll($orderBy = "") {
+        return $this->db->query("SELECT * FROM $this->table $orderBy")->fetchAll();
     }
 
     public function getById($id) {

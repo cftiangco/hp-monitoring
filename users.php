@@ -1,7 +1,7 @@
 <?php
-require_once('./models/User.php');
-$user = new User();
-$users = $user->fetchAll();
+    require_once('./models/User.php');
+    $user = new User();
+    $users = $user->fetchAll();
 ?>
 
 

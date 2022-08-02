@@ -50,7 +50,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" type="image/x-icon" href="assets/images/main-logo.png">
+    <link rel="icon" type="image/x-icon" href="assets/images/main-logo2.png">
     <title>HP Monitoring System / Login</title>
 </head>
 <body class="font-mono">

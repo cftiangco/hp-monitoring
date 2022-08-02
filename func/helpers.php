@@ -1,8 +1,8 @@
 <?php
 
 $yesNo = [
-    'Yes',
-    'No'
+    'Y',
+    'N'
 ];
 
 $familTypes = [
@@ -34,6 +34,30 @@ $waterSources = [
 $gender = [
     'M',
     'F'
+];
+
+$scholarships = [
+    'No',
+    'Academic Scholarship Programs',
+    'Athletic Scholarship Programs',
+    'Talent- or Skill-Based Scholarship Program',
+    'Leadership Excellence Scholarship Programs',
+    'Philippine Science High School (PSHS) Scholarship',
+    'Annual Nationwide Search for Young Arts Scholars (Philippine High School for the Arts)',
+    'National Government Scholarship Programs',
+    'Local Government Scholarship Programs',
+    'SM Foundation Inc. (SMFI) Scholarship Program',
+    'Megaworld Foundation Scholarship',
+    'Security Bank Foundation’s Scholars for Better Communities Scholarship Program',
+    'Asian Development Bank’s Japan Scholarship Program',
+    'Engineering Research and Development for Technology (ERDT) Scholarship',
+    'Asian Development Bank’s Japan Scholarship Program',
+    'Phildev Science and Engineering Scholarship',
+];
+
+$memberTypes = [
+    1 => 'Children',
+    2 => 'Other Member'
 ];
 
 function extractPayload() {
