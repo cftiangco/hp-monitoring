@@ -9,6 +9,7 @@ $users = $user->fetchAll();
 <div x-data="{
     errors: [],
     isModalOpen: false,
+    modalChangePassword:false,
     firstName: '',
     lastName: '',
     userName: '',
@@ -17,6 +18,10 @@ $users = $user->fetchAll();
     role: '1',
     userId:0,
     users: [],
+    newPassword:'',
+    confirmNewPassword:'',
+    changePasswordUserId:'',
+    changePasswordErrors:[],
     alert: {
         open:false,
         message:'',
@@ -115,6 +120,23 @@ $users = $user->fetchAll();
                     }
                 });
         } 
+    },
+    openModalChangePassword() {
+        this.newPassword = '';
+        this.confirmNewPassword = '';
+        this.modalChangePassword = true;
+    },
+    handleOpenModalChangePassword(id) {
+        this.changePasswordUserId = id;
+        this.openModalChangePassword();
+    },
+    handleChangePassword() {
+        if(this.newPassword !== this.confirmNewPassword) {
+            this.changePasswordErrors.push('New password didnt matched the confirm password');
+            return;
+        }
+        this.modalChangePassword = false;
+        console.log(this.newPassword,this.confirmNewPassword,this.changePasswordUserId);   
     }
 }">
     <section>
@@ -208,6 +230,49 @@ $users = $user->fetchAll();
         </div>
     </section>
 
+    <section x-show="modalChangePassword" x-cloak>
+        <div class="h-full w-full bg-gray-600 top-0 left-0 right-0 bg-opacity-75 absolute flex flex-row justify-center items-center z-50">
+            <div class="bg-white rounded shadow">
+                <div class="border-b p-3 flex justify-between items-center bg-green-600 text-white font-semibold">
+                    <h4>Change Password</h4>
+                    <svg xmlns="http://www.w3.org/2000/svg" @click="modalChangePassword = false" class="h-6 w-6 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                <div class="p-3 max-full">
+                    <form action="">
+
+                        <div class="text-xs text-red-400" x-show="changePasswordErrors.length > 0">
+                            <template x-for="error in changePasswordErrors">
+                                <li x-text="error"></li>
+                            </template>
+                        </div>
+
+                        <div class="flex flex-col gap-y-2 mb-3" x-show="userId === 0">
+                            <label for="">New Password</label>
+                            <input type="password" x-model="newPassword" class="bg-gray-50 outline-none border px-3 py-2 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
+                        </div>
+
+                        <div class="flex flex-col gap-y-2 mb-3" x-show="userId === 0">
+                            <label for="">Confirm New Password</label>
+                            <input type="password" x-model="confirmNewPassword" class="bg-gray-50 outline-none border px-3 py-2 rounded w-96 hover:border-2 hover:border-blue-300 hover:bg-white">
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="button" @click="handleChangePassword()" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                                </svg>
+                                <span>Change</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="mt-5">
         <div class="w-full bg-white p-4 rounded shadow">
             <table id="table_id" class="display nowrap" style="width:100%">
@@ -248,6 +313,13 @@ $users = $user->fetchAll();
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                     </svg>
                                     <span>Edit</span>
+                                </button>
+
+                                <button type="button" @click="() => handleOpenModalChangePassword(<?= $user['id'] ?>)" class="bg-green-500 text-sm text-white px-2 py-1 rounded hover:bg-green-400 flex items-center gap-x-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span>Change Password</span>
                                 </button>
 
                             </td>

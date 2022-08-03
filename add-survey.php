@@ -363,7 +363,7 @@ if(isset($_POST['submit'])) {
                 <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
 
                     <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="vagetable_garden">Mayroong Vegatable Garden</label>
+                        <label for="vagetable_garden">Mayroong Vegetable Garden</label>
                         <select name="vagetable_garden" id="vagetable_garden" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required':'' ?>>
                             <?php foreach($yesNo as $key => $value): ?>
                                 <option value="<?= $value ?>"><?= $value ?></option>

@@ -243,6 +243,14 @@
                     </tbody>
                 </table>
             </div>
+            <div class="flex justify-end my-2">
+                <a href="members.php?active=surveys&id=<?= $_GET['id'] ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <span class="hidden md:block">Edit</span>
+                </a>
+            </div>
         </div>
 
 
@@ -266,7 +274,7 @@
             </div>
 
             <div class="flex flex-col">
-                <p class="text-xs text-gray-400">Meron Vagetable Garden</p>
+                <p class="text-xs text-gray-400">Meron Vegetable Garden</p>
                 <p class="font-semibold text-lg text-gray-800"><?= $data->vagetable_garden ?></p>
             </div>
 
