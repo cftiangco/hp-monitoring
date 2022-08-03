@@ -30,4 +30,10 @@ class User extends main {
         return $this->db->query("SELECT COUNT(*) FROM users WHERE username = '$username'")->fetchColumn();
     }
 
+    public function changePassword($password,$userId) {
+        $hash = md5($password);
+        $this->db->exec("UPDATE users SET pword = '$hash' WHERE id = $userId");
+        return true;
+    }
+
 }

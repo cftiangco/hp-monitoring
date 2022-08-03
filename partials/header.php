@@ -32,7 +32,7 @@ $isAdmin = $_SESSION['role_id'] == 2 ? true:false;
     <div class="flex items-center justify-between h-full mx-2 md:mx-10">
         <div class="flex gap-x-2 items-center">
             <a href="index.php">
-                <img src="assets/images/main-logo.png" class="h-8 md:h-14 w-auto" alt="Main Logo">
+                <img src="assets/images/main-logo2.png" class="h-8 md:h-14 w-auto hover:scale-125 hover:duration-300" alt="Main Logo">
             </a>
             <h4 class="font-bold italic text-xs md:text-lg text-green-600">Household Profiling Monitoring System</h4>
         </div>

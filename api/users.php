@@ -53,6 +53,21 @@ if(isset($_GET['action']) && $_GET['action'] == "update") {
     
 }
 
+if(isset($_GET['action']) && $_GET['action'] == "change-password") {
+    $post = extractPayload();
+    $user = new User();
+    
+    $result = $user->changePassword($post['password'],$post['user_id']);
+
+    if($result) {
+        echo json_encode([
+            'status' => 200,
+            'data' => $result
+        ]);
+    }
+    
+}
+
 if(isset($_GET['action']) && $_GET['action'] == "getusers") {
     $user = new User();
     echo json_encode([
