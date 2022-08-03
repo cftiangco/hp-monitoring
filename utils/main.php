@@ -29,8 +29,8 @@ class main
         return $this->db->lastInsertId();
     }
 
-    public function fetchAll() {
-        return $this->db->query("SELECT * FROM $this->table")->fetchAll();
+    public function fetchAll($orderBy = "") {
+        return $this->db->query("SELECT * FROM $this->table $orderBy")->fetchAll();
     }
 
     public function getById($id) {
@@ -40,6 +40,10 @@ class main
     public function deleteById($id) {
         $this->db->query("DELETE FROM $this->table WHERE id = $id")->fetch(PDO::FETCH_OBJ);
         return $id;
+    }
+
+    public function total() {
+        return $this->db->query("SELECT COUNT(*) FROM $this->table ")->fetchColumn();
     }
     
 }
