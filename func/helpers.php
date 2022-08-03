@@ -72,3 +72,7 @@ function userSession($user) {
     $_SESSION["role_id"] = $user->role_id;
     $_SESSION["user_id"] = $user->id;
 }
+
+function dateFormat($date) {
+    return date('m/d/Y',strtotime($date));
+}

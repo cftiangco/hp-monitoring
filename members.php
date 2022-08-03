@@ -218,12 +218,16 @@ $required = false;
                                 <td x-text="member.forps_member"></td>
                                 <td x-text="truncateString(member.scholarship_member,15)"></td>
                                 <td class="flex gap-x-1">
-                                    <button type="button" @click="handleDelete(member.id)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
-                                        </svg>
-                                        <span class="hidden lg:block">Delete</span>
-                                    </button>
+                                    
+                                    <?php if ($isAdmin) : ?>
+                                        <button type="button" @click="handleDelete(member.id)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
+                                            </svg>
+                                            <span class="hidden lg:block">Delete</span>
+                                        </button>
+                                    <?php endif; ?>
+
                                     <button type="button" @click="handleEdit({
                                             member_id:member.id,
                                             survey_id:member.survey_id,

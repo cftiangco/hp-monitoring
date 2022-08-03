@@ -61,4 +61,15 @@ class Survey extends main {
         return true;
     }
 
+    public function getData($id) {
+        $survey = $this->getById($id);
+        $members = $this->db->query("SELECT * FROM members WHERE survey_id = $id;")->fetchAll(PDO::FETCH_OBJ);
+
+        foreach($members as $member) {
+            $survey->members[] = $member;
+        }  
+        
+        return $survey;
+    }
+
 }

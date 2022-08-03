@@ -41,5 +41,9 @@ class main
         $this->db->query("DELETE FROM $this->table WHERE id = $id")->fetch(PDO::FETCH_OBJ);
         return $id;
     }
+
+    public function total() {
+        return $this->db->query("SELECT COUNT(*) FROM $this->table ")->fetchColumn();
+    }
     
 }

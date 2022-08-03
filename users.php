@@ -1,7 +1,7 @@
 <?php
-    require_once('./models/User.php');
-    $user = new User();
-    $users = $user->fetchAll();
+require_once('./models/User.php');
+$user = new User();
+$users = $user->fetchAll();
 ?>
 
 
@@ -83,6 +83,9 @@
             } else {
                 postData('api/users.php?action=create', payload)
                 .then((data) => {
+                    if(data.status === 409) {
+                        this.errors.push('The username is already exists, Please pick a new one');
+                    }
                     if (data.status === 201) {
                         this.isModalOpen = false;
                         alert('Record has been successfully added');
@@ -118,12 +121,14 @@
         <div class="h-16 w-full bg-white shadow rounded flex justify-between items-center">
             <h4 class="mx-5 font-semibold">Users Account</h4>
             <div class="flex justify-end mx-5 text-sm">
-                <button type="submit" @click="openModal()" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-                    </svg>
-                    <span>Add User</span>
-                </button>
+                <?php if ($isAdmin) : ?>
+                    <button type="submit" @click="openModal()" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                        </svg>
+                        <span>Add User</span>
+                    </button>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -223,13 +228,14 @@
                             <td><?= $user['username'] ?></td>
                             <td><?= $user['role_id'] == 1 ? 'User' : 'Admin' ?></td>
                             <td class="flex gap-x-1">
-
-                                <button type="button" @click="() => onDelete(<?= $user['id'] ?>)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                        <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
-                                    </svg>
-                                    <span>Delete</span>
-                                </button>
+                                <?php if ($isAdmin && $user['id'] != $_SESSION['user_id']) : ?>
+                                    <button type="button" @click="() => onDelete(<?= $user['id'] ?>)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M11 6a3 3 0 11-6 0 3 3 0 016 0zM14 17a6 6 0 00-12 0h12zM13 8a1 1 0 100 2h4a1 1 0 100-2h-4z" />
+                                        </svg>
+                                        <span>Delete</span>
+                                    </button>
+                                <?php endif; ?>
 
                                 <button type="button" @click="() => onEdit({
                                     id:<?= $user['id'] ?>,
@@ -243,7 +249,7 @@
                                     </svg>
                                     <span>Edit</span>
                                 </button>
-                                
+
                             </td>
                         </tr>
                     <?php endforeach; ?>

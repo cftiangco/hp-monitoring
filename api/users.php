@@ -5,18 +5,29 @@ require('../models/User.php');
 if(isset($_GET['action']) && $_GET['action'] == "create") {
     $post = extractPayload();
     $user = new User();
-    $result = $user->create([
-        'lastname' => $post['lastname'],
-        'firstname' => $post['firstname'],
-        'username' => $post['username'],
-        'pword' => md5($post['password']),
-        'role_id' => (int)$post['role_id'],
-    ]);
 
-    if($result) {
+    $userExists = $user->checkUserIfExists($post['username']);
+
+    if(!$userExists) {
+        $result = $user->create([
+            'lastname' => $post['lastname'],
+            'firstname' => $post['firstname'],
+            'username' => $post['username'],
+            'pword' => md5($post['password']),
+            'role_id' => (int)$post['role_id'],
+        ]);
+    
+        if($result) {
+            echo json_encode([
+                'status' => 201,
+                'data' => $result
+            ]);
+        }
+        exit();
+    } else {
         echo json_encode([
-            'status' => 201,
-            'data' => $result
+            'status' => 409,
+            'data' => $userExists
         ]);
     }
     

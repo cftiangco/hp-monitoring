@@ -26,4 +26,8 @@ class User extends main {
         return $this->db->query("SELECT * FROM users WHERE lastname LIKE '%$query%' OR firstname LIKE '%$query%' ")->fetchAll(PDO::FETCH_OBJ);
     }
 
+    public function checkUserIfExists($username) {
+        return $this->db->query("SELECT COUNT(*) FROM users WHERE username = '$username'")->fetchColumn();
+    }
+
 }

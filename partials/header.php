@@ -4,6 +4,9 @@ if(!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
+
+$isAdmin = $_SESSION['role_id'] == 2 ? true:false;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -28,12 +31,12 @@ if(!isset($_SESSION['user_id'])) {
 <header class="h-20 bg-white border-b shadow-sm w-full fixed z-10">
     <div class="flex items-center justify-between h-full mx-2 md:mx-10">
         <div class="flex gap-x-2 items-center">
-            <h4>
+            <a href="index.php">
                 <img src="assets/images/main-logo.png" class="h-8 md:h-14 w-auto" alt="Main Logo">
-            </h4>
+            </a>
             <h4 class="font-bold italic text-xs md:text-lg text-green-600">Household Profiling Monitoring System</h4>
         </div>
-        <div class="flex items-center gap-y-2 md:gap-x-5">
+        <div class="flex items-center gap-y-2 md:gap-x-5 hover:cursor-pointer">
             <h4 class="text-sm text-end md:text-start md:text-lg">Hi <?= ucfirst($_SESSION['lastname']) ?>, <?= ucfirst($_SESSION['firstname']) ?>!</h4>
             <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
