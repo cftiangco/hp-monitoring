@@ -100,7 +100,7 @@ $pdf->setX('285');
 $pdf->SetFont('Arial','B',9);
 $pdf->Cell(30,7,'Petsa ng Survey',0,0,'');
 $pdf->SetFont('Arial','',9);
-$pdf->Cell(25,5,$data->created_at,'B',1,'');
+$pdf->Cell(25,5,dateFormat($data->created_at),'B',1,'');
 
 $pdf->Ln(5);
 $pdf->SetFont('Arial','B',9);

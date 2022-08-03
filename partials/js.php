@@ -2,6 +2,7 @@
     $('#table_id').DataTable({
         responsive: true
     });
+
     async function postData(url = '', data = {}) {
         // Default options are marked with *
         const response = await fetch(url, {

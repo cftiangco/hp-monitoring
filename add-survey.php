@@ -60,7 +60,7 @@ if(isset($_POST['submit'])) {
 
 <section>
     <div class="h-12 w-full bg-green-600 text-white shadow rounded flex justify-between items-center">
-        <h4 class="mx-5 font-semibold text-xl">Survey Form - Part 1</h4>
+        <h4 class="mx-5 font-semibold text-xl text-gray-300">Survey Form - Part 1</h4>
     </div>
 </section>
 
@@ -111,7 +111,7 @@ if(isset($_POST['submit'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="household_head_birthday">Birthday</label>
-                        <input type="date" name="household_head_birthday" id="household_head_birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required':'' ?>>
+                        <input type="date" name="household_head_birthday" id="household_head_birthday" max="<?= date('Y-m-d'); ?>" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required':'' ?>>
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
@@ -200,7 +200,7 @@ if(isset($_POST['submit'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="partner_birthday">Birthday</label>
-                        <input type="date" name="partner_birthday" id="partner_birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="date" name="partner_birthday" id="partner_birthday" max="<?= date('Y-m-d'); ?>"  class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
@@ -271,7 +271,7 @@ if(isset($_POST['submit'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="lmp">LMP</label>
-                        <input type="date" name="lmp" id="lmp" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="date" name="lmp" id="lmp" max="<?= date('Y-m-d'); ?>"  class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                 </div>
@@ -280,7 +280,7 @@ if(isset($_POST['submit'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="edc">EDC</label>
-                        <input type="date" name="edc" id="edc" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="date" name="edc" id="edc" max="<?= date('Y-m-d'); ?>"  class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">

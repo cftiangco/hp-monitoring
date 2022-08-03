@@ -1,6 +1,10 @@
 <?php
-require_once(dirname(__FILE__) . '/func/helpers.php');
-$required = false;
+    require_once(dirname(__FILE__) . '/func/helpers.php');
+    require_once('./models/Survey.php');
+    
+    $required = false;
+    $survey = new Survey();
+    $data = $survey->getById($_GET['id']);
 ?>
 <?php include './partials/header.php'; ?>
 
@@ -172,7 +176,8 @@ $required = false;
 }">
     <section>
         <div class="h-12 w-full bg-green-600 text-white shadow rounded flex justify-between items-center">
-            <h4 class="mx-5 font-semibold text-xl">Survey Form - Part 2</h4>
+            <h4 class="mx-5 font-semibold text-xl text-gray-300">Survey Form - Part 2</h4>
+            <h4 class="mx-5 font-semibold text-xl"><?= ucfirst($data->household_head) ?></h4>
         </div>
     </section>
 
@@ -306,7 +311,7 @@ $required = false;
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="birthday">Kapanganakan</label>
-                                    <input type="date" name="birthday" id="birthday" x-model="birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                    <input type="date" name="birthday" max="<?= date('Y-m-d'); ?>"  id="birthday" x-model="birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
                                 </div>
 
                                 <div class="flex flex-col gap-y-2 mb-3">

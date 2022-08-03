@@ -120,7 +120,7 @@ if(isset($_POST['update'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="household_head_birthday">Birthday</label>
-                        <input type="date" name="household_head_birthday" value="<?= $data->household_head_birthday ?>" id="household_head_birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required':'' ?>>
+                        <input type="date" name="household_head_birthday" max="<?= date('Y-m-d'); ?>"  value="<?= $data->household_head_birthday ?>" id="household_head_birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required':'' ?>>
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
@@ -209,7 +209,7 @@ if(isset($_POST['update'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="partner_birthday">Birthday</label>
-                        <input type="date" name="partner_birthday" id="partner_birthday" value="<?= $data->partner_birthday ?>" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="date" name="partner_birthday" max="<?= date('Y-m-d'); ?>"  id="partner_birthday" value="<?= $data->partner_birthday ?>" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
@@ -280,7 +280,7 @@ if(isset($_POST['update'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="lmp">LMP</label>
-                        <input type="date" name="lmp" id="lmp" value="<?= $data->lmp ?>"class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="date" name="lmp" id="lmp" max="<?= date('Y-m-d'); ?>"  value="<?= $data->lmp ?>"class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                 </div>
@@ -289,7 +289,7 @@ if(isset($_POST['update'])) {
 
                     <div class="flex flex-col gap-y-2 mb-3">
                         <label for="edc">EDC</label>
-                        <input type="date" name="edc" id="edc" value="<?= $data->edc ?>"class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <input type="date" name="edc" id="edc" max="<?= date('Y-m-d'); ?>"  value="<?= $data->edc ?>"class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
