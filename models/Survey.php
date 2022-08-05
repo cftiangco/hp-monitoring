@@ -72,4 +72,12 @@ class Survey extends main {
         return $survey;
     }
 
+    public function checkIfUserHasRecord($id) {
+        return $this->db->query("SELECT id FROM surveys WHERE user_id = $id")->fetchColumn() ?? 0;
+    }
+
+    public function getSurveyId($hash) {
+        return $this->db->query("SELECT id FROM surveys WHERE md5(user_id) = '$hash'")->fetchColumn() ?? 0;
+    }
+
 }

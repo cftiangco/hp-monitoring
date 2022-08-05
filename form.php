@@ -3,7 +3,11 @@ session_start();
 require_once('./models/Survey.php');
 require_once('./func/helpers.php');
 $survey = new Survey();
-$data = $survey->getData(1123);
+$data = "";
+$hasData = $survey->checkIfUserHasRecord(22);
+if($hasData > 0) {
+    $data = $survey->getData($hasData);
+} 
 ?>
 <?php include './partials/header.php'; ?>
 <section>
@@ -13,7 +17,7 @@ $data = $survey->getData(1123);
             <div class="bg-white shadow p-2 rounded mb-5 flex justify-between">
                 <h4 class="mx-2 font-bold text-xl text-gray-600">Survey View</h4>
                 <div class="flex gap-x-1">
-                    <a href="report.php?id=<?= $_GET['id'] ?>" target="_blank" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
+                    <a href="report.php?user_id=<?= $_GET['id'] ?>" target="_blank" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -241,7 +245,7 @@ $data = $survey->getData(1123);
                     </table>
                 </div>
                 <div class="flex justify-end my-2">
-                    <a href="members.php?active=surveys&id=<?= $_GET['id'] ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
+                    <a href="members.php?active=surveys&user_id=<?= $_GET['id'] ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -291,7 +295,7 @@ $data = $survey->getData(1123);
         <div class="bg-white shadow p-2 rounded mb-5 flex justify-between">
             <h4 class="mx-2 font-bold text-xl text-gray-600">Survey View</h4>
             <div class="flex gap-x-1">
-                <a href="#" class="bg-green-500 text-sm text-white px-2 py-1 rounded hover:bg-green-400 flex items-center gap-x-1">
+                <a href="new.php" class="bg-green-500 text-sm text-white px-2 py-1 rounded hover:bg-green-400 flex items-center gap-x-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>

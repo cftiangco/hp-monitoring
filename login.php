@@ -62,7 +62,7 @@ function checkPassword($loginPassword, $sytemPassword)
 </head>
 
 <body class="font-mono">
-    <div class="grid grid-cols-1 lg:grid-cols-2" x-data="{
+    <div class="grid grid-cols-1 lg:grid-cols-2 mt-16 lg:mt-0" x-data="{
         registerOpen:false,
         firstname:'',
         lastname:'',
@@ -137,14 +137,14 @@ function checkPassword($loginPassword, $sytemPassword)
         }
     }">
 
-        <div class="h-screen w-full hidden lg:flex border-r flex-col justify-center items-center gap-y-2 bg-gray-100">
-            <h1 class="text-4xl text-gray-700 text-center"><span class="text-green-600 font-bold">Household Profiling Monitoring System</span> <br /><span class="text-xl">Barangay Marinig Heath Center</span></h1>
-            <div>
-                <img src="assets/images/main-logo2.png" alt="Main Logo">
+        <div class="h-fit lg:h-screen w-full  lg:flex border-r flex-col justify-center items-center gap-y-2 bg-white lg:bg-gray-100">
+            <h1 class="text-lg lg:text-4xl text-gray-700 text-center"><span class="text-green-600 font-bold">Household Profiling Monitoring System</span> <br /><span class="text-sm lg:text-xl">Barangay Marinig Heath Center</span></h1>
+            <div class="flex justify-center">
+                <img src="assets/images/main-logo2.png" class="w-28 h-auto lg:w-auto lg:h-auto" alt="Main Logo">
             </div>
         </div>
 
-        <div class="h-screen bg-gray-50 lg:bg-white">
+        <div class="h-fit lg:h-screen bg-gray-50 lg:bg-white">
             <div class="flex flex-col items-center justify-center h-full gap-y-10">
 
                 <?php if (count($errors) > 0) : ?>

@@ -3,6 +3,20 @@ session_start();
 require_once('./models/User.php');
 $user = new User();
 $users = $user->fetchAll();
+
+function getRole($roleId) {
+    switch($roleId) {
+        case 1:
+            return 'User';
+        break;
+        case 2:
+            return 'Admin';
+        break;
+        default:
+            return 'Household';
+        break;
+    }
+}
 ?>
 
 
@@ -292,7 +306,7 @@ $users = $user->fetchAll();
     </section>
 
     <section class="mt-5">
-        <div class="w-full bg-white p-4 rounded shadow">
+        <div class="w-full h-screen bg-white p-4 rounded shadow overflow-x-scroll">
             <table id="table_id" class="display nowrap" style="width:100%">
                 <thead>
                     <tr>
@@ -309,7 +323,7 @@ $users = $user->fetchAll();
                             <td><?= $user['lastname'] ?></td>
                             <td><?= $user['firstname'] ?></td>
                             <td><?= $user['username'] ?></td>
-                            <td><?= $user['role_id'] == 1 ? 'User' : 'Admin' ?></td>
+                            <td><?= getRole($user['role_id']) ?></td>
                             <td class="flex gap-x-1">
                                 <?php if ($isAdmin && $user['id'] != $_SESSION['user_id']) : ?>
                                     <button type="button" @click="() => onDelete(<?= $user['id'] ?>)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">

@@ -5,7 +5,9 @@
     
     $required = false;
     $survey = new Survey();
-    $data = $survey->getById($_GET['id']);
+    
+    $surveyId = isset($_GET['id']) && $_GET['id'] ? $_GET['id'] : $survey->getSurveyId($_GET['user_id']);
+    $data = $survey->getById($surveyId); 
 ?>
 <?php include './partials/header.php'; ?>
 
@@ -40,7 +42,7 @@
     members:[],
     member_id:0,
     init() {
-        fetch(`api/members.php?action=fetch&survey_id=${<?= $_GET['id'] ?>}`)
+        fetch(`api/members.php?action=fetch&survey_id=${<?= $surveyId ?>}`)
             .then((response) => response.json())
             .then((data) => {
                 this.members = data.data;
@@ -177,8 +179,8 @@
 }">
     <section>
         <div class="h-12 w-full bg-green-600 text-white shadow rounded flex justify-between items-center">
-            <h4 class="mx-5 font-semibold text-xl text-gray-300">Survey Form - Part 2</h4>
-            <h4 class="mx-5 font-semibold text-xl"><?= ucfirst($data->household_head) ?></h4>
+            <h4 class="mx-5 font-semibold text-sm lg:text-xl text-gray-300">Survey Form - Part 2</h4>
+            <h4 class="mx-5 font-semibold text-sm lg:text-xl"><?= ucfirst($data->household_head) ?></h4>
         </div>
     </section>
 
@@ -197,7 +199,7 @@
                 </div>
             </div>
 
-            <div class="mx-5 w-full mt-5">
+            <div class="mx-5  lg:w-full h-screen mt-5 overflow-x-scroll">
                 <table class="table-auto w-full text-start text-sm">
                     <thead class="text-left">
                         <tr>
@@ -205,8 +207,6 @@
                             <th>Pangalan</th>
                             <th>Kasarian</th>
                             <th>Kapanganakan</th>
-                            <th>Edad</th>
-                            <th>Nag-aaral</th>
                             <th>4PS Member</th>
                             <th>Scholarship</th>
                             <th></th>
@@ -219,8 +219,6 @@
                                 <td x-text="member.fullname"></td>
                                 <td x-text="member.sex"></td>
                                 <td x-text="moment(member.birthday).format('MM-DD-YYYY')"></td>
-                                <td x-text="member.age"></td>
-                                <td x-text="member.studying"></td>
                                 <td x-text="member.forps_member"></td>
                                 <td x-text="truncateString(member.scholarship_member,15)"></td>
                                 <td class="flex gap-x-1">
@@ -283,7 +281,7 @@
                 </div>
                 <div class="p-3">
                     <form action="">
-                        <input type="hidden" value="123" name="survey_id" x-init="survey_id = <?= $_GET['id'] ?>" x-model="survey_id">
+                        <input type="hidden" value="123" name="survey_id" x-init="survey_id = <?= $surveyId ?>" x-model="survey_id">
                         <div class="text-xs text-red-400" x-show="errors.length > 0">
                             <template x-for="error in errors">
                                 <li x-text="error"></li>

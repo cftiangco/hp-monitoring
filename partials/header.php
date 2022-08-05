@@ -37,7 +37,7 @@ $role_id = $_SESSION['role_id'];
                 <a href="<?= $role_id != 3 ? 'index.php':'form.php?active=myapplication&id=' . md5($_SESSION['user_id']) ?>">
                     <img src="assets/images/main-logo2.png" class="h-8 md:h-14 w-auto hover:scale-125 hover:duration-300" alt="Main Logo">
                 </a>
-                <h4 class="font-bold italic text-xs md:text-lg text-green-600">Household Profiling Monitoring System</h4>
+                <h4 class="font-bold italic text-xs md:text-lg text-green-600 hidden md:block">Household Profiling Monitoring System</h4>
             </div>
             <div class="flex items-center gap-y-2 md:gap-x-5 hover:cursor-pointer">
                 <h4 class="text-sm text-end md:text-start md:text-lg">Hi <?= ucfirst($_SESSION['lastname']) ?>, <?= ucfirst($_SESSION['firstname']) ?>!</h4>

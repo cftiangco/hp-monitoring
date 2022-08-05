@@ -35,7 +35,7 @@ $surveys = $survey->fetchAll();
   </section>
 
   <section class="mt-5">
-    <div class="w-full bg-white p-4 rounded shadow">
+    <div class="w-full h-screen bg-white p-4 rounded shadow overflow-x-scroll">
       <table id="table_id" class="display nowrap" style="width:100%">
         <thead>
           <tr>

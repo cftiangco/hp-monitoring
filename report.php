@@ -12,8 +12,17 @@ require_once('./func/helpers.php');
 
 $survey = new Survey();
 
-$id = $_GET['id'];
-$data = $survey->getData($id);
+$data = new stdClass;
+
+if(isset($_GET['id']) && $_GET['id'] > 0) {
+    $data = $survey->getData($_GET['id']);
+}
+
+if(isset($_GET['user_id']) && $_GET['user_id'] > 0) {
+    $id = $survey->getSurveyId($_GET['user_id']);
+    $data = $survey->getData($id);
+}
+
 
 /* ====================== START PDF ===================== */
 class PDF extends FPDF
