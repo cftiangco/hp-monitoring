@@ -1,8 +1,10 @@
 <?php
+session_start();
 require_once('./models/Survey.php');
 $survey = new Survey();
 $surveys = $survey->fetchAll();
 ?>
+
 <?php include './partials/header.php'; ?>
 <div x-data="{
   onDelete(id) {

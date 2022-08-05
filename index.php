@@ -1,4 +1,5 @@
-<?php 
+<?php
+  session_start();
   require_once(dirname(__FILE__) . '/models/Survey.php');
   $survey = new Survey();
 ?>

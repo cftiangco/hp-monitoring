@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once('./models/Survey.php');
     require_once('./func/helpers.php');
     $survey = new Survey();

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once(dirname(__FILE__) . '/func/helpers.php');
     require_once('./models/Survey.php');
     
