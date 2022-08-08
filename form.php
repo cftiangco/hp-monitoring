@@ -4,7 +4,7 @@ require_once('./models/Survey.php');
 require_once('./func/helpers.php');
 $survey = new Survey();
 $data = "";
-$hasData = $survey->checkIfUserHasRecord(22);
+$hasData = $survey->checkIfUserHasRecord($_SESSION['user_id']);
 if($hasData > 0) {
     $data = $survey->getData($hasData);
 } 
