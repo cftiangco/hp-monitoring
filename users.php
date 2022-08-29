@@ -2,7 +2,7 @@
 session_start();
 require_once('./models/User.php');
 $user = new User();
-$users = $user->fetchAll();
+$users = $user->fetchAllUsers();
 
 function getRole($roleId) {
     switch($roleId) {

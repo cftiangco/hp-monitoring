@@ -9,7 +9,9 @@ if(isset($_GET['action']) && $_GET['action'] == "create") {
     
     $result = $member->create([
         'survey_id' => $post['survey_id'],
-        'fullname' => $post['fullname'],
+        'lastname' => $post['lastname'],
+        'firstname' => $post['firstname'],
+        'middlename' => $post['middlename'],
         'birthday' => $post['birthday'],
         'age' => $post['age'],
         'studying' => $post['studying'],
@@ -43,7 +45,9 @@ if(isset($_GET['action']) && $_GET['action'] == "update") {
 
     $result = $member->update([
         'survey_id' => $post['survey_id'],
-        'fullname' => $post['fullname'],
+        'lastname' => $post['lastname'],
+        'firstname' => $post['firstname'],
+        'middlename' => $post['middlename'],
         'birthday' => $post['birthday'],
         'age' => (int)$post['age'],
         'studying' => $post['studying'],

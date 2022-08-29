@@ -5,9 +5,9 @@ require_once('./func/helpers.php');
 $survey = new Survey();
 $data = "";
 $hasData = $survey->checkIfUserHasRecord($_SESSION['user_id']);
-if($hasData > 0) {
+if ($hasData > 0) {
     $data = $survey->getData($hasData);
-} 
+}
 ?>
 <?php include './partials/header.php'; ?>
 <section>
@@ -65,7 +65,7 @@ if($hasData > 0) {
 
                 <div class="flex flex-col">
                     <p class="text-xs text-gray-400">Edad</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->household_head_age ?></p>
+                    <p class="font-semibold text-lg text-gray-800"><?= getAge($data->household_head_birthday) ?></p>
                 </div>
 
                 <div class="flex flex-col">
@@ -126,7 +126,7 @@ if($hasData > 0) {
 
                 <div class="flex flex-col">
                     <p class="text-xs text-gray-400">Edad</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_age ?></p>
+                    <p class="font-semibold text-lg text-gray-800"><?= getAge($data->partner_birthday) ?></p>
                 </div>
 
                 <div class="flex flex-col">
@@ -200,60 +200,61 @@ if($hasData > 0) {
                 </div>
 
             </div>
-
-            <hr class="w-40 h-3 bg-green-600 my-5 hidden md:block">
-
-            <div class="bg-white shadow p-2 rounded mt-3 hidden md:block">
-                <div class="w-full">
-                    <table class="table-auto text-xs w-full border-collapse border border-slate-400">
-                        <thead class="text-cemter">
-                            <tr>
-                                <th class="border border-slate-300">Type</th>
-                                <th class="border border-slate-300">Pangalan</th>
-                                <th class="border border-slate-300">Kapanganakan</th>
-                                <th class="border border-slate-300">Edad</th>
-                                <th class="border border-slate-300">Nagaaral / Grade</th>
-                                <th class="border border-slate-300">Trabaho/Buwanang Sahod</th>
-                                <th class="border border-slate-300">Sumususo sa Ina</th>
-                                <th class="border border-slate-300">Dumedede sa Bote</th>
-                                <th class="border border-slate-300">Mixed Feeding</th>
-                                <th class="border border-slate-300">Miyembro ng PhilHealth</th>
-                                <th class="border border-slate-300">May Disability / Disability</th>
-                                <th class="border border-slate-300">4PS Member</th>
-                                <th class="border border-slate-300">Scholar</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center">
-                            <?php foreach ($data->members as $member) : ?>
+    
+            <?php if (property_exists($data, 'members')) : ?>
+                <hr class="w-40 h-3 bg-green-600 my-5 hidden md:block">
+                <div class="bg-white shadow p-2 rounded mt-3 hidden md:block">
+                    <div class="w-full">
+                        <table class="table-auto text-xs w-full border-collapse border border-slate-400">
+                            <thead class="text-cemter">
                                 <tr>
-                                    <td class="border border-slate-300"><?= $member->type_id == 1 ? 'Anak' : 'Ibang Miyembro' ?></td>
-                                    <td class="border border-slate-300"><?= $member->fullname ?></td>
-                                    <td class="border border-slate-300"><?= dateFormat($member->birthday) ?></td>
-                                    <td class="border border-slate-300"><?= $member->age ?></td>
-                                    <td class="border border-slate-300"><?= $member->studying ?>/<?= $member->grade ?></td>
-                                    <td class="border border-slate-300"><?= $member->occupation ? $member->occupation : 'N' ?>/<?= $member->salary ?></td>
-                                    <td class="border border-slate-300"><?= $member->breast_feeding ?></td>
-                                    <td class="border border-slate-300"><?= $member->bottle_feeding ?></td>
-                                    <td class="border border-slate-300"><?= $member->mix_feeding ?></td>
-                                    <td class="border border-slate-300"><?= $member->philhealth_member ?></td>
-                                    <td class="border border-slate-300"><?= $member->disability ?> / <?= $member->disability_type ?></td>
-                                    <td class="border border-slate-300"><?= $member->forps_member ?></td>
-                                    <td class="border border-slate-300"><?= $member->scholarship_member ?></td>
+                                    <th class="border border-slate-300">Type</th>
+                                    <th class="border border-slate-300">Pangalan</th>
+                                    <th class="border border-slate-300">Kapanganakan</th>
+                                    <th class="border border-slate-300">Edad</th>
+                                    <th class="border border-slate-300">Nagaaral / Grade</th>
+                                    <th class="border border-slate-300">Trabaho/Buwanang Sahod</th>
+                                    <th class="border border-slate-300">Sumususo sa Ina</th>
+                                    <th class="border border-slate-300">Dumedede sa Bote</th>
+                                    <th class="border border-slate-300">Mixed Feeding</th>
+                                    <th class="border border-slate-300">Miyembro ng PhilHealth</th>
+                                    <th class="border border-slate-300">May Disability / Disability</th>
+                                    <th class="border border-slate-300">4PS Member</th>
+                                    <th class="border border-slate-300">Scholar</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="text-center">
+                                <?php foreach ($data->members as $member) : ?>
+                                    <tr>
+                                        <td class="border border-slate-300"><?= $member->type_id == 1 ? 'Anak' : 'Ibang Miyembro' ?></td>
+                                        <td class="border border-slate-300"><?= $member->fullname ?></td>
+                                        <td class="border border-slate-300"><?= dateFormat($member->birthday) ?></td>
+                                        <td class="border border-slate-300"><?= $member->age ?></td>
+                                        <td class="border border-slate-300"><?= $member->studying ?>/<?= $member->grade ?></td>
+                                        <td class="border border-slate-300"><?= $member->occupation ? $member->occupation : 'N' ?>/<?= $member->salary ?></td>
+                                        <td class="border border-slate-300"><?= $member->breast_feeding ?></td>
+                                        <td class="border border-slate-300"><?= $member->bottle_feeding ?></td>
+                                        <td class="border border-slate-300"><?= $member->mix_feeding ?></td>
+                                        <td class="border border-slate-300"><?= $member->philhealth_member ?></td>
+                                        <td class="border border-slate-300"><?= $member->disability ?> / <?= $member->disability_type ?></td>
+                                        <td class="border border-slate-300"><?= $member->forps_member ?></td>
+                                        <td class="border border-slate-300"><?= $member->scholarship_member ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="flex justify-end my-2">
-                    <a href="members.php?active=surveys&user_id=<?= $_GET['id'] ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                        <span class="hidden md:block">Edit</span>
-                    </a>
-                </div>
-            </div>
+            <?php endif; ?>
 
+            <div class="flex justify-end my-2">
+                <a href="members.php?active=surveys&user_id=<?= $_GET['id'] ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <span class="hidden md:block">Edit Members</span>
+                </a>
+            </div>
 
             <hr class="w-40 h-3 bg-green-600 my-5">
 

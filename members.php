@@ -1,13 +1,13 @@
 <?php
-    session_start();
-    require_once(dirname(__FILE__) . '/func/helpers.php');
-    require_once('./models/Survey.php');
-    
-    $required = false;
-    $survey = new Survey();
-    
-    $surveyId = isset($_GET['id']) && $_GET['id'] ? $_GET['id'] : $survey->getSurveyId($_GET['user_id']);
-    $data = $survey->getById($surveyId); 
+session_start();
+require_once(dirname(__FILE__) . '/func/helpers.php');
+require_once('./models/Survey.php');
+
+$required = false;
+$survey = new Survey();
+
+$surveyId = isset($_GET['id']) && $_GET['id'] ? $_GET['id'] : $survey->getSurveyId($_GET['user_id']);
+$data = $survey->getById($surveyId);
 ?>
 <?php include './partials/header.php'; ?>
 
@@ -22,22 +22,24 @@
     },
     type_id:'1',
     survey_id:'',
-    fullname:'',
+    lastname:'',
+    firstname:'',
+    middlename:'',
     birthday:'',
     age:'',
-    studying:'N',
+    studying:'n',
     grade:'',
     occupation:'',
     salary:'',
-    breast_feeding:'N',
-    bottle_feeding:'N',
-    mix_feeding:'N',
-    philhealth_member:'N',
-    disability:'N',
+    breast_feeding:'n',
+    bottle_feeding:'n',
+    mix_feeding:'n',
+    philhealth_member:'n',
+    disability:'n',
     disability_type:'',
-    sex:'M',
+    sex:'m',
     scholarship_member:'No',
-    forps_member:'N',
+    forps_member:'n',
     errors:[],
     members:[],
     member_id:0,
@@ -50,22 +52,24 @@
             });
     },
     resetFields() {
-        this.fullname = '';
+        this.lastname = '';
+        this.firstname = '';
+        this.middlename = '';
         this.birthday = '';
         this.age = '';
-        this.studying = 'N';
+        this.studying = 'n';
         this.grade = '';
-        this.occupation = '';
+        this.occupation = 'Unemployed';
         this.salary = '';
-        this.breast_feeding = 'N';
-        this.bottle_feeding = 'N';
-        this.mix_feeding = 'N';
-        this.philhealth_member = 'N';
-        this.disability = 'N';
+        this.breast_feeding = 'n';
+        this.bottle_feeding = 'n';
+        this.mix_feeding = 'n';
+        this.philhealth_member = 'n';
+        this.disability = 'n';
         this.disability_type = '';
-        this.sex = 'M';
+        this.sex = 'm';
         this.scholarship_member = 'No';
-        this.forps_member = 'N';
+        this.forps_member = 'n';
         this.type_id = 1;
         this.member_id = 0;
     },
@@ -75,7 +79,9 @@
 
         let payload = {
             survey_id:this.survey_id,
-            fullname:this.fullname,
+            lastname:this.lastname,
+            firstname:this.firstname,
+            middlename:this.middlename,
             birthday:this.birthday,
             age:this.age,
             studying:this.studying,
@@ -95,16 +101,16 @@
             member_id:this.member_id
         };
 
-        if(this.fullname === '') {
-            this.errors.push('Full Name is required');
+        if(this.lastname === '') {
+            this.errors.push('lastname is required');
+        }
+
+        if(this.firstname === '') {
+            this.errors.push('firstname is required');
         }
 
         if(this.birthday === '') {
             this.errors.push('Birthday is required');
-        }
-
-        if(this.age === '') {
-            this.errors.push('Age is required');
         }
 
         if (this.errors.length === 0) { 
@@ -137,7 +143,9 @@
     handleEdit(data) {
         console.log(data);
         this.survey_id = data.survey_id;
-        this.fullname = data.fullname;
+        this.firstname = data.firstname;
+        this.lastname = data.lastname;
+        this.middlename = data.middlename;
         this.birthday = data.birthday;
         this.age = data.age;
         this.studying = data.studying;
@@ -174,6 +182,49 @@
             return str.slice(0, num) + '...';
         } else {
             return str;
+        }
+    },
+    handleStudyingChange() {
+        console.log(this.studying);
+    },
+    handleOccupationChange() {
+        this.salary = '';
+    },
+    handleDisabilityChange() {
+        this.disability_type = '';
+    },
+    getRelationship(id) {
+        switch(id) {
+            case 1:
+                return 'Son';
+            break;
+            case 2:
+                return 'Daughter';
+            break;
+            case 3:
+                return 'Mother';
+            break;
+            case 4:
+                return 'Father';
+            break;
+            case 5:
+                return 'Grandfather';
+            break;
+            case 6:
+                return 'Grandmother';
+            break;
+            case 7:
+                return 'Cousin';
+            break;
+            case 8:
+                return 'Aunt';
+            break;
+            case 9:
+                return 'Uncle';
+            break;
+            case 10:
+                return 'Other Member';
+            break;
         }
     }
 }">
@@ -215,14 +266,14 @@
                     <tbody>
                         <template x-for="member in members">
                             <tr>
-                                <td x-text="member.type_id === 1 ? 'Children':'Other Member'" class="text-xs font-semibold" :class="member.type_id === 1 ? 'text-green-700':'text-red-700'"></td>
-                                <td x-text="member.fullname"></td>
+                                <td x-text="getRelationship(member.type_id)" class="text-xs font-semibold text-green-700"></td>
+                                <td x-text="member.lastname"></td>
                                 <td x-text="member.sex"></td>
                                 <td x-text="moment(member.birthday).format('MM-DD-YYYY')"></td>
                                 <td x-text="member.forps_member"></td>
                                 <td x-text="truncateString(member.scholarship_member,15)"></td>
                                 <td class="flex gap-x-1">
-                                    
+
                                     <?php if ($isAdmin) : ?>
                                         <button type="button" @click="handleDelete(member.id)" class="bg-red-500 text-sm text-white px-2 py-1 rounded hover:bg-red-400 flex items-center gap-x-1">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -235,7 +286,9 @@
                                     <button type="button" @click="handleEdit({
                                             member_id:member.id,
                                             survey_id:member.survey_id,
-                                            fullname:member.fullname,
+                                            lastname:member.lastname,
+                                            firstname:member.firstname,
+                                            middlename:member.middlename,
                                             birthday:member.birthday,
                                             age:member.age,
                                             studying:member.studying,
@@ -291,6 +344,7 @@
                         <div class="p-3">
 
                             <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
+                                
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="type_id">Type</label>
                                     <select name="type_id" id="type_id" x-model="type_id" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
@@ -299,39 +353,57 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                            </div>
-
-
-                            <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
-                                <div class="flex flex-col gap-y-2 mb-3">
-                                    <label for="fullname">Pangalan</label>
-                                    <input type="text" name="fullname" id="fullname" x-model="fullname" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                </div>
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="birthday">Kapanganakan</label>
-                                    <input type="date" name="birthday" max="<?= date('Y-m-d'); ?>"  id="birthday" x-model="birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                    <input type="date" name="birthday" max="<?= date('Y-m-d'); ?>" id="birthday" x-model="birthday" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
                                 </div>
 
+                            </div>
+
+
+                            <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
+
                                 <div class="flex flex-col gap-y-2 mb-3">
-                                    <label for="age">Edad</label>
-                                    <input type="number" name="age" id="age" x-model="age" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                </div>
+                                    <label for="lastname">Last Name</label>
+                                    <input type="text" name="lastname" id="lastname" x-model="lastname" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                </div> 
+                                
+                                <div class="flex flex-col gap-y-2 mb-3">
+                                    <label for="firstname">First Name</label>
+                                    <input type="text" name="firstname" id="firstname" x-model="firstname" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                </div> 
+                                
+                                <div class="flex flex-col gap-y-2 mb-3">
+                                    <label for="middlename">Middle Name</label>
+                                    <input type="text" name="middlename" id="middlename" x-model="middlename" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                </div>   
+
                             </div>
 
                             <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
+
                                 <div class="flex flex-col gap-y-2 mb-3">
-                                    <label for="studying">Nag-aaral</label>
-                                    <select name="studying" id="studying" x-model="studying" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
+                                    <label for="studying">Nag-aral</label>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="studying_n">Yes</label>
+                                            <input type="radio" name="studying" id="studying_y" x-model="studying" @change="handleStudyingChange" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="studying_y">No</label>
+                                            <input type="radio" name="studying" id="studying_n" x-model="studying" @change="handleStudyingChange" value="n" checked="checked">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="flex flex-col gap-y-2 mb-3" x-show="studying === 'y'">
+                                    <label for="grade">Grade</label>
+                                    <select name="grade" id="grade" x-model="grade" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                        <?php foreach ($grades as $key => $value) : ?>
                                             <option value="<?= $value ?>"><?= $value ?></option>
                                         <?php endforeach; ?>
                                     </select>
-                                </div>
-
-                                <div class="flex flex-col gap-y-2 mb-3" x-show="studying === 'Y'">
-                                    <label for="grade">Grade</label>
-                                    <input type="text" name="grade" x-model="grade" placeholder="Grade/HS/College Level" id="grade" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
                                 </div>
 
                             </div>
@@ -340,42 +412,66 @@
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="occupation">Trabaho</label>
-                                    <input type="text" name="occupation" id="occupation" x-model="occupation" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                    <select name="occupation" id="occupation" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?> x-model="occupation" :change="handleOccupationChange">
+                                        <?php foreach ($occupations as $key => $value) : ?>
+                                            <option value="<?= $value ?>"><?= $value ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
 
-                                <div class="flex flex-col gap-y-2 mb-3" x-show="occupation.length > 0">
+                                <div class="flex flex-col gap-y-2 mb-3" x-show="occupation !== 'Unemployed'">
                                     <label for="salary">Buwanang Sahod</label>
-                                    <input type="number" name="salary" id="salary" x-model="salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                    <select name="salary" id="salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                        <?php foreach ($salaries as $key => $value) : ?>
+                                            <option value="<?= $value ?>"><?= $value ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
+
                             </div>
 
                             <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="breast_feeding">Sumususo sa Ina</label>
-                                    <select name="breast_feeding" id="breast_feeding" x-model="breast_feeding" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="breast_feeding_y">Yes</label>
+                                            <input type="radio" name="breast_feeding" id="breast_feeding_y" x-model="breast_feeding" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="breast_feeding_n">No</label>
+                                            <input type="radio" name="breast_feeding" id="breast_feeding_n" x-model="breast_feeding" value="n" checked="checked">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="bottle_feeding">Dumedede sa Bote</label>
-                                    <select name="bottle_feeding" id="bottle_feeding" x-model="bottle_feeding" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="bottle_feeding_y">Yes</label>
+                                            <input type="radio" name="bottle_feeding" id="bottle_feeding_y" x-model="bottle_feeding" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="bottle_feeding_n">No</label>
+                                            <input type="radio" name="bottle_feeding" id="bottle_feeding_n" x-model="bottle_feeding" value="n" checked="checked">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="mix_feeding">Mixed sa Bote</label>
-                                    <select name="mix_feeding" id="mix_feeding" x-model="mix_feeding" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="mix_feeding_y">Yes</label>
+                                            <input type="radio" name="mix_feeding" id="mix_feeding_y" x-model="mix_feeding" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="mix_feeding_n">No</label>
+                                            <input type="radio" name="mix_feeding" id="mix_feeding_n" x-model="mix_feeding" value="n" checked="checked">
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
@@ -384,23 +480,33 @@
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="philhealth_member">Miyembro ng PhilHealth</label>
-                                    <select name="philhealth_member" id="philhealth_member" x-model="philhealth_member" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="philhealth_member_y">Yes</label>
+                                            <input type="radio" name="philhealth_member" id="philhealth_member_y" x-model="philhealth_member" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="philhealth_member_n">No</label>
+                                            <input type="radio" name="philhealth_member" id="philhealth_member_y" x-model="philhealth_member" value="n" checked="checked">
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="disability">May disability</label>
-                                    <select name="disability" id="disability" x-model="disability" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="disability_y">Yes</label>
+                                            <input type="radio" name="disability" id="disability_y" x-model="disability" @change="handleDisabilityChange" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="disability_n">No</label>
+                                            <input type="radio" name="disability" id="disability_n" x-model="disability" @change="handleDisabilityChange" value="n" checked="checked">
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="flex flex-col gap-y-2 mb-3" x-show="disability === 'Y'">
+                                <div class="flex flex-col gap-y-2 mb-3" x-show="disability === 'y'">
                                     <label for="disability_type">Anong Disability</label>
                                     <input type="text" name="disability_type" id="disability_type" x-model="disability_type" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
                                 </div>
@@ -411,12 +517,18 @@
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="sex">Sex</label>
-                                    <select name="sex" id="sex" x-model="sex" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($gender as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="sex_m">Male</label>
+                                            <input type="radio" name="sex" id="sex_m" x-model="sex" value="m" checked="checked">
+                                        </div>
+                                        <div>
+                                            <label for="sex_f">Female</label>
+                                            <input type="radio" name="sex" id="sex_f" x-model="sex" value="f">
+                                        </div>
+                                    </div>
                                 </div>
+
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="scholarship_member">Scholarship Member</label>
@@ -429,11 +541,16 @@
 
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="forps_member">4PS Member</label>
-                                    <select name="forps_member" id="forps_member" x-model="forps_member" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                        <?php foreach ($yesNo as $key => $value) : ?>
-                                            <option value="<?= $value ?>"><?= $value ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
+                                    <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                        <div>
+                                            <label for="forps_member_y">Yes</label>
+                                            <input type="radio" name="forps_member" id="forps_member_y" x-model="forps_member" value="y">
+                                        </div>
+                                        <div>
+                                            <label for="forps_member_n">No</label>
+                                            <input type="radio" name="forps_member" id="forps_member_n" x-model="forps_member" value="n">
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>

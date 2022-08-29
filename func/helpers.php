@@ -56,13 +56,79 @@ $scholarships = [
 ];
 
 $memberTypes = [
-    1 => 'Children',
-    2 => 'Other Member'
+    1 => 'Son',
+    2 => 'Daughter',
+    3 => 'Mother',
+    4 => 'Father',
+    5 => 'Grandfather',
+    6 => 'Grandmother',
+    7 => 'Cousin',
+    8 => 'Aunt',
+    9 => 'Uncle',
+    10 => 'Other Member'
 ];
+
+$occupations = [
+   'Unemployed',
+   'Part-time',
+   'Full-time',
+   'Other (Please specify)'
+];
+
+$salaries = [
+    '< 10,000',
+    '10,000 - 20,000',
+    '20,001 - 35,000',
+    '35,001 - 50,000',
+    '50,000 >'
+];
+
+$grades = [
+    'Elementary',
+    'High School',
+    'Senior High School',
+    'College',
+    'Masteral'
+ ];
 
 function extractPayload() {
     $json = file_get_contents('php://input',true);
     return json_decode($json,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+}
+
+function getRelationship($id) {
+    switch($id) {
+        case 1:
+            return 'Son';
+        break;
+        case 1:
+            return 'Daughter';
+        break;
+        case 2:
+            return 'Mother';
+        break;
+        case 3:
+            return 'Father';
+        break;
+        case 4:
+            return 'Grandfather';
+        break;
+        case 5:
+            return 'Grandmother';
+        break;
+        case 6:
+            return 'Cousin';
+        break;
+        case 7:
+            return 'Aunt';
+        break;
+        case 8:
+            return 'Uncle';
+        break;
+        case 9:
+            return 'Other Member';
+        break;
+    }
 }
 
 function userSession($user) {
@@ -75,4 +141,16 @@ function userSession($user) {
 
 function dateFormat($date) {
     return date('m/d/Y',strtotime($date));
+}
+
+function getAge($dob){
+
+    $dob = date("Y-m-d",strtotime($dob));
+
+    $dobObject = new DateTime($dob);
+    $nowObject = new DateTime();
+
+    $diff = $dobObject->diff($nowObject);
+
+    return $diff->y;
 }

@@ -17,7 +17,9 @@ class Member extends main {
     public function update($payload) {
         $stmt = $this->db->prepare("UPDATE members SET 
             survey_id = :survey_id,
-            fullname = :fullname,
+            lastname = :lastname,
+            firstname = :firstname,
+            middlename = :middlename,
             birthday = :birthday,
             age = :age,
             studying = :studying,

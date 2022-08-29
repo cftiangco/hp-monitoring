@@ -36,4 +36,9 @@ class User extends main {
         return true;
     }
 
+    public function fetchAllUsers() {
+        return $this->db->query("SELECT * FROM users WHERE role_id != 3")->fetchAll();
+    }
+
+
 }
