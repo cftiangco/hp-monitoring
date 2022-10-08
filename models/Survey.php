@@ -90,4 +90,8 @@ class Survey extends main {
         return $this->db->query("SELECT id FROM surveys WHERE md5(user_id) = '$hash'")->fetchColumn() ?? 0;
     }
 
+    public function getSurveyByHashUserId($userId) {
+        return $this->db->query("SELECT * FROM surveys WHERE md5(user_id) = '$userId'")->fetch(PDO::FETCH_OBJ);
+    }
+
 }

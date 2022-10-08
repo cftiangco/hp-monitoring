@@ -1,6 +1,9 @@
 <?php
 require('../func/helpers.php');
 require('../models/Member.php');
+require('../models/Log.php');
+
+$log = new Log();
 
 if(isset($_GET['action']) && $_GET['action'] == "create") {
     $post = extractPayload();
@@ -31,6 +34,12 @@ if(isset($_GET['action']) && $_GET['action'] == "create") {
     ]);
 
     if($result) {
+
+        $log->create([
+            'user_id' => $post['user_id'],
+            'description' => "Added new member " . "'{$post['firstname']}'"
+        ]);
+
         echo json_encode([
             'status' => 201,
             'data' => $result
@@ -68,6 +77,11 @@ if(isset($_GET['action']) && $_GET['action'] == "update") {
     ]);
 
     if($result) {
+        $log->create([
+            'user_id' => $post['user_id'],
+            'description' => "Updated member information " . "'{$post['firstname']}'"
+        ]);
+
         echo json_encode([
             'status' => 201,
             'data' => $result

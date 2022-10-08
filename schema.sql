@@ -78,3 +78,101 @@ CREATE TABLE members(
     scholarship_member VARCHAR(200),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+-- =========== original -10/8/2022 ============
+CREATE TABLE `members` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `type_id` smallint(6) DEFAULT 1,
+  `survey_id` int(11) DEFAULT NULL,
+  `lastname` varchar(150) DEFAULT NULL,
+  `firstname` varchar(150) DEFAULT NULL,
+  `middlename` varchar(150) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `age` smallint(6) DEFAULT NULL,
+  `studying` varchar(1) DEFAULT NULL,
+  `grade` varchar(100) DEFAULT NULL,
+  `occupation` varchar(150) DEFAULT NULL,
+  `salary` varchar(50) DEFAULT NULL,
+  `breast_feeding` varchar(1) DEFAULT NULL,
+  `bottle_feeding` varchar(1) DEFAULT NULL,
+  `mix_feeding` varchar(1) DEFAULT NULL,
+  `philhealth_member` varchar(1) DEFAULT NULL,
+  `disability` varchar(1) DEFAULT NULL,
+  `disability_type` varchar(200) DEFAULT NULL,
+  `sex` varchar(1) DEFAULT NULL,
+  `forps_member` varchar(1) DEFAULT NULL,
+  `scholarship_member` varchar(200) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `surveys` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `purok` varchar(100) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `hh_no` varchar(50) DEFAULT NULL,
+  `family_type` varchar(1) DEFAULT NULL,
+  `family_members` smallint(6) DEFAULT NULL,
+  `complete_address` varchar(255) DEFAULT NULL,
+  `household_head` varchar(100) DEFAULT NULL,
+  `household_head_birthday` date DEFAULT NULL,
+  `household_head_age` smallint(6) DEFAULT NULL,
+  `household_head_student` varchar(1) DEFAULT NULL,
+  `household_head_student_grade` varchar(50) DEFAULT NULL,
+  `household_head_occupation` varchar(150) DEFAULT NULL,
+  `household_head_occupation_other` varchar(200) DEFAULT NULL,
+  `household_head_salary` varchar(50) DEFAULT NULL,
+  `household_head_philhealth_member` varchar(1) DEFAULT NULL,
+  `household_head_disability` varchar(1) DEFAULT NULL,
+  `household_head_disability_type` varchar(100) DEFAULT NULL,
+  `household_head_gender` varchar(1) DEFAULT NULL,
+  `partner_name` varchar(150) DEFAULT NULL,
+  `partner_birthday` date DEFAULT NULL,
+  `partner_age` smallint(6) DEFAULT NULL,
+  `partner_gender` varchar(2) DEFAULT NULL,
+  `partner_student` varchar(1) DEFAULT NULL,
+  `partner_grade` varchar(50) DEFAULT NULL,
+  `partner_occupation` varchar(100) DEFAULT NULL,
+  `partner_occupation_other` varchar(200) DEFAULT NULL,
+  `partner_salary` varchar(50) DEFAULT NULL,
+  `partner_philhealth_member` varchar(1) DEFAULT NULL,
+  `partner_pregnant` varchar(1) DEFAULT NULL,
+  `partner_age_of_gestation` smallint(6) DEFAULT NULL,
+  `lmp` date DEFAULT NULL,
+  `edc` date DEFAULT NULL,
+  `breast_feeding` varchar(1) DEFAULT NULL,
+  `family_planning_method` varchar(1) DEFAULT NULL,
+  `family_planning_methodtype` varchar(150) DEFAULT NULL,
+  `disability` varchar(1) DEFAULT NULL,
+  `disability_type` varchar(150) DEFAULT NULL,
+  `toilet_type` varchar(100) DEFAULT NULL,
+  `dwelling_unit` varchar(100) DEFAULT NULL,
+  `water_source` varchar(150) DEFAULT NULL,
+  `vagetable_garden` varchar(1) DEFAULT NULL,
+  `has_animals` varchar(1) DEFAULT NULL,
+  `type_of_animals` varchar(255) DEFAULT NULL,
+  `using_iodized_salt` varchar(1) DEFAULT NULL,
+  `using_fortified_foods` varchar(1) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `user_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `tstamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `pword` varchar(100) DEFAULT NULL,
+  `role_id` smallint(6) DEFAULT NULL,
+  `tstamp` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4;

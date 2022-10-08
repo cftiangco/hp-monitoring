@@ -1,6 +1,9 @@
 <?php
 require('../func/helpers.php');
 require('../models/User.php');
+require('../models/Log.php');
+
+$log = new Log();
 
 if(isset($_GET['action']) && $_GET['action'] == "create") {
     $post = extractPayload();
@@ -60,6 +63,10 @@ if(isset($_GET['action']) && $_GET['action'] == "change-password") {
     $result = $user->changePassword($post['password'],$post['user_id']);
 
     if($result) {
+
+        $log->addLog($post['user_id'],'Updated his/her password');
+
+
         echo json_encode([
             'status' => 200,
             'data' => $result

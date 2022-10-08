@@ -2,15 +2,16 @@
 session_start();
 require_once(dirname(__FILE__) . '/func/helpers.php');
 require_once(dirname(__FILE__) . '/models/Survey.php');
+require_once(dirname(__FILE__) . '/models/Log.php');
 $required = true;
 
 $survey = new Survey();
+$log = new Log();
 
 $data = "";
 
 if (isset($_GET['id']) && $_GET['id']) {
-    $data = $survey->getById($_GET['id']);
-    // print_r($data);
+    $data = $survey->getSurveyByHashUserId($_GET['id']);
 }
 
 if (isset($_POST['update'])) {
@@ -54,7 +55,7 @@ if (isset($_POST['update'])) {
         'id' => $_POST['id']
     ];
 
-    // print_r($values);
+        // print_r($values);
     // echo json_encode($values);
     // return;
 
@@ -62,7 +63,8 @@ if (isset($_POST['update'])) {
     $result = $survey->update($values);
 
     if ($result) {
-        header('Location: members.php?id=' . $_POST['id']);
+        $log->addLog($_SESSION['user_id'],'Updated his/her survey information');
+        header('Location: form.php?action=myapplication&id=' . md5($_POST['id']));
     }
 }
 
@@ -119,9 +121,9 @@ if (isset($_POST['update'])) {
     }
 }">
     <div class="h-auto w-full bg-white shadow rounded mt-5 mb-20">
-        <form action="<?= $_SERVER['PHP_SELF'] ?>?id=<?= $_GET['id'] ?>" method="POST" onsubmit="return confirm('Are you sure you want to Submit?');">
+        <form action="<?= $_SERVER['PHP_SELF'] ?>?id=<?= md5($data->id) ?>" method="POST" onsubmit="return confirm('Are you sure you want to Submit?');">
             <div class="p-3">
-                <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
+                <input type="hidden" name="id" value="<?= $data->id ?>">
 
                 <!-- ============= ROW 1 ================ -->
                 <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">

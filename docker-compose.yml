@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    php-env:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+        depends_on:
+            - db
+        volumes:
+            - ./:/var/www/html/
+        ports:
+            - 8000:80
+    db:
+        image: mysql
+        restart: always
+        environment:
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            MYSQL_USER: root 
+        ports:
+            - "9906:3306"
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        restart: always
+        ports:
+            - '9001:80'
+        environment: 
+            - PMA_ABRITRARY=1

@@ -30,7 +30,7 @@ $data = $survey->getById($surveyId);
     studying:'n',
     grade:'',
     occupation:'',
-    salary:'',
+    salary:'< 10,000',
     breast_feeding:'n',
     bottle_feeding:'n',
     mix_feeding:'n',
@@ -43,12 +43,15 @@ $data = $survey->getById($surveyId);
     errors:[],
     members:[],
     member_id:0,
+    income:0,
     init() {
         fetch(`api/members.php?action=fetch&survey_id=${<?= $surveyId ?>}`)
             .then((response) => response.json())
             .then((data) => {
                 this.members = data.data;
-                console.log(this.members);
+                this.income = this.members.map((m) => {
+                    return m.salary.split('-')[0].replace(/[-,<>]/g,'');
+                }).reduce((a,b) => parseInt(a)+parseInt(b))
             });
     },
     resetFields() {
@@ -87,7 +90,7 @@ $data = $survey->getById($surveyId);
             studying:this.studying,
             grade:this.grade,
             occupation:this.occupation,
-            salary:this.salary,
+            salary:this.salary ?? '< 10,000',
             breast_feeding:this.breast_feeding,
             bottle_feeding:this.bottle_feeding,
             mix_feeding:this.mix_feeding,
@@ -98,8 +101,11 @@ $data = $survey->getById($surveyId);
             scholarship_member:this.scholarship_member,
             forps_member:this.forps_member,
             type_id:this.type_id,
-            member_id:this.member_id
+            member_id:this.member_id,
+            user_id : <?= $_SESSION['user_id'] ? $_SESSION['user_id'] : 0 ?>
         };
+
+        console.log('payload',payload);
 
         if(this.lastname === '') {
             this.errors.push('lastname is required');
@@ -226,6 +232,14 @@ $data = $survey->getById($surveyId);
                 return 'Other Member';
             break;
         }
+    },
+    currencyFormat(price,sign='P') {
+        const pieces = parseFloat(price).toFixed(2).split('')
+        let ii = pieces.length - 3
+        while ((ii-=3) > 0) {
+            pieces.splice(ii, 0, ',')
+        }
+        return sign + pieces.join('') 
     }
 }">
     <section>
@@ -260,6 +274,7 @@ $data = $survey->getById($surveyId);
                             <th>Kapanganakan</th>
                             <th>4PS Member</th>
                             <th>Scholarship</th>
+                            <th>Income</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -267,11 +282,12 @@ $data = $survey->getById($surveyId);
                         <template x-for="member in members">
                             <tr>
                                 <td x-text="getRelationship(member.type_id)" class="text-xs font-semibold text-green-700"></td>
-                                <td x-text="member.lastname"></td>
+                                <td x-text='member.firstname'></td>
                                 <td x-text="member.sex"></td>
                                 <td x-text="moment(member.birthday).format('MM-DD-YYYY')"></td>
                                 <td x-text="member.forps_member"></td>
                                 <td x-text="truncateString(member.scholarship_member,15)"></td>
+                                <td x-text="member.salary"></td>
                                 <td class="flex gap-x-1">
 
                                     <?php if ($isAdmin) : ?>
@@ -344,7 +360,7 @@ $data = $survey->getById($surveyId);
                         <div class="p-3">
 
                             <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
-                                
+
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="type_id">Type</label>
                                     <select name="type_id" id="type_id" x-model="type_id" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
@@ -367,17 +383,17 @@ $data = $survey->getById($surveyId);
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="lastname">Last Name</label>
                                     <input type="text" name="lastname" id="lastname" x-model="lastname" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                </div> 
-                                
+                                </div>
+
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="firstname">First Name</label>
                                     <input type="text" name="firstname" id="firstname" x-model="firstname" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                </div> 
-                                
+                                </div>
+
                                 <div class="flex flex-col gap-y-2 mb-3">
                                     <label for="middlename">Middle Name</label>
                                     <input type="text" name="middlename" id="middlename" x-model="middlename" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                                </div>   
+                                </div>
 
                             </div>
 
@@ -421,7 +437,7 @@ $data = $survey->getById($surveyId);
 
                                 <div class="flex flex-col gap-y-2 mb-3" x-show="occupation !== 'Unemployed'">
                                     <label for="salary">Buwanang Sahod</label>
-                                    <select name="salary" id="salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                    <select name="salary" id="salary" x-model="salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
                                         <?php foreach ($salaries as $key => $value) : ?>
                                             <option value="<?= $value ?>"><?= $value ?></option>
                                         <?php endforeach; ?>
@@ -573,5 +589,16 @@ $data = $survey->getById($surveyId);
         </div>
     </section>
 
+    <div class="fixed bottom-0 left-0 right-1 w-screen z-50 p-3 bg-black bg-opacity-25">
+        <div class="flex justify-end mr-10">
+            <h3 class="text-xl border px-5 bg-white rounded">Estimated Family income: <span x-text="currencyFormat(income)"></span></h3>
+        </div>
+        <!-- <button type="submit" name="submit" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400 float-right mr-5 md:mr-10">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+            </svg>
+            <span>Submit Survey</span>
+        </button> -->
+    </div>
 </div>
 <?php include './partials/footer.php'; ?>
