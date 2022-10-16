@@ -1,86 +1,6 @@
 CREATE DATABASE hpmonitoring;
 
-CREATE TABLE users(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    firstname VARCHAR(50),
-    lastname VARCHAR(50),
-    username VARCHAR(50),
-    pword VARCHAR(100),
-    role_id SMALLINT,
-    tstamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
-CREATE TABLE surveys(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	purok VARCHAR(100),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-	hh_no VARCHAR(50),
-    family_type VARCHAR(1),
-    family_members SMALLINT,
-    complete_address VARCHAR(255),
-	household_head VARCHAR(100),
-    household_head_birthday DATE,
-    household_head_age SMALLINT,
-    household_head_student VARCHAR(1),
-    household_head_student_grade VARCHAR(50),
-    household_head_occupation VARCHAR(150),
-    household_head_salary DECIMAL(9,2),
-    household_head_philhealth_member VARCHAR(1),
-    household_head_disability VARCHAR(1),
-    household_head_disability_type VARCHAR(100),
-    household_head_gender VARCHAR(1),
-    partner_name VARCHAR(150),
-    partner_birthday DATE,
-    partner_age SMALLINT,
-    partner_student VARCHAR(1),
-    partner_grade VARCHAR(50),
-    partner_occupation VARCHAR(100),
-    partner_salary DECIMAL(9,2),
-    partner_philhealth_member VARCHAR(1),
-    partner_pregnant VARCHAR(1),
-    partner_age_of_gestation SMALLINT,
-    lmp DATE,
-    edc DATE,
-    breast_feeding VARCHAR(1),
-    family_planning_method VARCHAR(1),
-    family_planning_methodtype VARCHAR(150),
-    disability VARCHAR(1),
-    disability_type VARCHAR(150),
-    toilet_type VARCHAR(100),
-    dwelling_unit VARCHAR(100),
-    water_source VARCHAR(150),
-    vagetable_garden VARCHAR(1),
-    has_animals VARCHAR(1),
-    type_of_animals VARCHAR(255),
-    using_iodized_salt VARCHAR(1),
-    using_fortified_foods VARCHAR(1)
-);
-
-CREATE TABLE members(
-	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    type_id SMALLINT DEFAULT 1,
-    survey_id INT,
-    fullname VARCHAR(150),
-    birthday DATE,
-    age SMALLINT,
-    studying VARCHAR(1),
-    grade VARCHAR(100),
-    occupation VARCHAR(150),
-    salary DECIMAL(9,2),
-    breast_feeding VARCHAR(1),
-    bottle_feeding VARCHAR(1),
-    mix_feeding VARCHAR(1),
-    philhealth_member VARCHAR(1),
-	disability VARCHAR(1),
-    disability_type VARCHAR(200),
-    sex VARCHAR(1),
-    forps_member VARCHAR(1),
-    scholarship_member VARCHAR(200),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-
--- =========== original -10/8/2022 ============
 CREATE TABLE `members` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type_id` smallint(6) DEFAULT 1,
@@ -93,7 +13,7 @@ CREATE TABLE `members` (
   `studying` varchar(1) DEFAULT NULL,
   `grade` varchar(100) DEFAULT NULL,
   `occupation` varchar(150) DEFAULT NULL,
-  `salary` varchar(50) DEFAULT NULL,
+  `salary` varchar(50) DEFAULT '0',
   `breast_feeding` varchar(1) DEFAULT NULL,
   `bottle_feeding` varchar(1) DEFAULT NULL,
   `mix_feeding` varchar(1) DEFAULT NULL,
@@ -104,8 +24,9 @@ CREATE TABLE `members` (
   `forps_member` varchar(1) DEFAULT NULL,
   `scholarship_member` varchar(200) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `other_work` varchar(145) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `surveys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -164,7 +85,7 @@ CREATE TABLE `user_logs` (
   `description` text DEFAULT NULL,
   `tstamp` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
