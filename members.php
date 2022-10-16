@@ -30,7 +30,7 @@ $data = $survey->getById($surveyId);
     studying:'n',
     grade:'',
     occupation:'',
-    salary:'< 10,000',
+    salary:'',
     breast_feeding:'n',
     bottle_feeding:'n',
     mix_feeding:'n',
@@ -44,15 +44,21 @@ $data = $survey->getById($surveyId);
     members:[],
     member_id:0,
     income:0,
+    other_work:'',
     init() {
         fetch(`api/members.php?action=fetch&survey_id=${<?= $surveyId ?>}`)
             .then((response) => response.json())
             .then((data) => {
                 this.members = data.data;
                 this.income = this.members.map((m) => {
-                    return m.salary.split('-')[0].replace(/[-,<>]/g,'');
+                    if(m.salary != '') {
+                        console.log(`salary :`,m.salary);
+                        return m.salary.split('-')[0].replace(/[-,<>]/g,'');
+                    }
                 }).reduce((a,b) => parseInt(a)+parseInt(b))
             });
+
+            console.log(`income`,this.income);
     },
     resetFields() {
         this.lastname = '';
@@ -75,6 +81,7 @@ $data = $survey->getById($surveyId);
         this.forps_member = 'n';
         this.type_id = 1;
         this.member_id = 0;
+        this.other_work = '';
     },
     saveChildren() {
 
@@ -90,7 +97,7 @@ $data = $survey->getById($surveyId);
             studying:this.studying,
             grade:this.grade,
             occupation:this.occupation,
-            salary:this.salary ?? '< 10,000',
+            salary:this.salary ?? 0,
             breast_feeding:this.breast_feeding,
             bottle_feeding:this.bottle_feeding,
             mix_feeding:this.mix_feeding,
@@ -102,6 +109,7 @@ $data = $survey->getById($surveyId);
             forps_member:this.forps_member,
             type_id:this.type_id,
             member_id:this.member_id,
+            other_work:this.occupation === 'Other (Please specify)' ? this.other_work:'',
             user_id : <?= $_SESSION['user_id'] ? $_SESSION['user_id'] : 0 ?>
         };
 
@@ -148,6 +156,7 @@ $data = $survey->getById($surveyId);
     },
     handleEdit(data) {
         console.log(data);
+        this.other_work = data.other_work;
         this.survey_id = data.survey_id;
         this.firstname = data.firstname;
         this.lastname = data.lastname;
@@ -233,13 +242,12 @@ $data = $survey->getById($surveyId);
             break;
         }
     },
-    currencyFormat(price,sign='P') {
-        const pieces = parseFloat(price).toFixed(2).split('')
-        let ii = pieces.length - 3
-        while ((ii-=3) > 0) {
-            pieces.splice(ii, 0, ',')
-        }
-        return sign + pieces.join('') 
+    currencyFormat(price) {
+        var formatter = new Intl.NumberFormat('fil-PH', {
+            style: 'currency',
+            currency: 'PHP',
+        });
+        return formatter.format(price ?? 0); 
     }
 }">
     <section>
@@ -287,7 +295,7 @@ $data = $survey->getById($surveyId);
                                 <td x-text="moment(member.birthday).format('MM-DD-YYYY')"></td>
                                 <td x-text="member.forps_member"></td>
                                 <td x-text="truncateString(member.scholarship_member,15)"></td>
-                                <td x-text="member.salary"></td>
+                                <td x-text="member.salary ? member.salary : 0"></td>
                                 <td class="flex gap-x-1">
 
                                     <?php if ($isAdmin) : ?>
@@ -321,6 +329,7 @@ $data = $survey->getById($surveyId);
                                             scholarship_member:member.scholarship_member,
                                             forps_member:member.forps_member,
                                             type_id:member.type_id,
+                                            other_work:member.other_work
                                         })" class="bg-yellow-500 text-sm text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -435,9 +444,15 @@ $data = $survey->getById($surveyId);
                                     </select>
                                 </div>
 
+                                <div class="flex flex-col gap-y-2 mb-3" x-show="occupation === 'Other (Please specify)'">
+                                    <label for="other_work">Specify here</label>
+                                    <input type="text" name="other_work" id="other_work" x-model="other_work" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                                </div>
+
                                 <div class="flex flex-col gap-y-2 mb-3" x-show="occupation !== 'Unemployed'">
                                     <label for="salary">Buwanang Sahod</label>
                                     <select name="salary" id="salary" x-model="salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                        <option value="" disabled>Select</option>
                                         <?php foreach ($salaries as $key => $value) : ?>
                                             <option value="<?= $value ?>"><?= $value ?></option>
                                         <?php endforeach; ?>

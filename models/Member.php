@@ -35,7 +35,8 @@ class Member extends main {
             sex = :sex,
             scholarship_member = :scholarship_member,
             forps_member = :forps_member,
-            type_id = :type_id
+            type_id = :type_id,
+            other_work = :other_work
             WHERE id = :id");
         $stmt->execute($payload);
         return $this->getById($payload['id']);
