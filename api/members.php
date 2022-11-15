@@ -20,7 +20,7 @@ if(isset($_GET['action']) && $_GET['action'] == "create") {
         'studying' => $post['studying'],
         'grade' => $post['grade'],
         'occupation' => $post['occupation'],
-        'salary' => $post['salary'],
+        'salary' => $post['salary'] ? $post['salary'] : '0',
         'breast_feeding' => $post['breast_feeding'],
         'bottle_feeding' => $post['bottle_feeding'],
         'mix_feeding' => $post['mix_feeding'],
@@ -31,6 +31,7 @@ if(isset($_GET['action']) && $_GET['action'] == "create") {
         'scholarship_member' => $post['scholarship_member'],
         'forps_member' => $post['forps_member'],
         'type_id' => $post['type_id'],
+        'other_work' => $post['other_work'],
     ]);
 
     if($result) {
@@ -62,7 +63,7 @@ if(isset($_GET['action']) && $_GET['action'] == "update") {
         'studying' => $post['studying'],
         'grade' => $post['grade'],
         'occupation' => $post['occupation'],
-        'salary' => $post['salary'],
+        'salary' => $post['salary'] ?? '0',
         'breast_feeding' => $post['breast_feeding'],
         'bottle_feeding' => $post['bottle_feeding'],
         'mix_feeding' => $post['mix_feeding'],
@@ -73,6 +74,7 @@ if(isset($_GET['action']) && $_GET['action'] == "update") {
         'scholarship_member' => $post['scholarship_member'],
         'forps_member' => $post['forps_member'],
         'type_id' => $post['type_id'],
+        'other_work' => $post['other_work'],
         'id' => $post['member_id'],
     ]);
 
