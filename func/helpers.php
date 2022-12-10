@@ -162,6 +162,13 @@ function dateFormat($date) {
     return date('m/d/Y',strtotime($date));
 }
 
+function datetimeFormat($date) {
+    if($date == "0000-00-00") {
+        return '';
+    }
+    return date('m/d/Y H:i:s',strtotime($date));
+}
+
 function getAge($dob){
 
     $dob = date("Y-m-d",strtotime($dob));

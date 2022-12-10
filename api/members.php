@@ -37,7 +37,7 @@ if(isset($_GET['action']) && $_GET['action'] == "create") {
     if($result) {
 
         $log->create([
-            'user_id' => $post['user_id'],
+            'user_id' => $post['survey_id'],
             'description' => "Added new member " . "'{$post['firstname']}'"
         ]);
 
@@ -80,7 +80,7 @@ if(isset($_GET['action']) && $_GET['action'] == "update") {
 
     if($result) {
         $log->create([
-            'user_id' => $post['user_id'],
+            'user_id' => $post['survey_id'],
             'description' => "Updated member information " . "'{$post['firstname']}'"
         ]);
 

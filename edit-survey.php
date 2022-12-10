@@ -2,8 +2,9 @@
 session_start();
 require_once(dirname(__FILE__) . '/func/helpers.php');
 require_once(dirname(__FILE__) . '/models/Survey.php');
+require_once(dirname(__FILE__) . '/models/Log.php');
 $required = true;
-
+$log = new Log();
 $survey = new Survey();
 
 $data = "";
@@ -59,7 +60,7 @@ if (isset($_POST['update'])) {
     $result = $survey->update($values);
 
     if ($result) {
-
+        $log->addLog($_POST['id'],'Survey has been successfuly updated by User Admin');
         if($_FILES['picture']['name']) {
             $target_dir = "public/images/";
             $fileName = $_FILES['picture']['name'];
@@ -67,7 +68,8 @@ if (isset($_POST['update'])) {
             $uploadPath = $target_dir . uniqid() . '.' . $fileExtension;
             $fileTmpName  = $_FILES['picture']['tmp_name'];
             $survey->updatePicture($_POST['id'],$uploadPath);
-            move_uploaded_file($fileTmpName, $uploadPath); 
+            move_uploaded_file($fileTmpName, $uploadPath);
+            $log->addLog($_POST['id'],'Admin has updated Profile picture'); 
         }
 
         header('Location: members.php?id=' . $_POST['id']);

@@ -52,7 +52,12 @@ class Survey extends main {
         ");
 
         $stmt->execute($payload);
+        $this->updateCreatedAt($payload['id']);
         return true;
+    }
+
+    public function updateCreatedAt($id) {
+        $this->db->exec("UPDATE surveys SET created_at = NOW() WHERE id = $id");
     }
 
     public function updateAdditionalInfo($payload) {

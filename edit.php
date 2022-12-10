@@ -35,7 +35,7 @@ if (isset($_POST['update'])) {
         'household_head_disability_type' => $_POST['household_head_disability_type'] ?? '',
         'household_head_gender' => $_POST['household_head_gender'],
         'partner_name' => $_POST['partner_name'],
-        'partner_gender' => $_POST['partner_gender'],
+        'partner_gender' => $_POST['partner_gender'] ?? '',
         'partner_birthday' => $_POST['partner_birthday'],
         'partner_student' => $_POST['partner_student'],
         'partner_grade' => $_POST['partner_grade'] ?? '',
@@ -57,14 +57,14 @@ if (isset($_POST['update'])) {
     ];
 
         // print_r($values);
-    // echo json_encode($values);
-    // return;
+        // echo json_encode($values);
+        // return;
 
 
     $result = $survey->update($values);
 
     if ($result) {
-        $log->addLog($_SESSION['user_id'],'Updated his/her survey information');
+        $log->addLog($_POST['id'],'Updated his/her Survey information');
         if($_FILES['picture']['name']) {
             $target_dir = "public/images/";
             $fileName = $_FILES['picture']['name'];
@@ -73,6 +73,8 @@ if (isset($_POST['update'])) {
             $fileTmpName  = $_FILES['picture']['tmp_name'];
             $survey->updatePicture($_POST['id'],$uploadPath);
             move_uploaded_file($fileTmpName, $uploadPath); 
+            $log->addLog($_POST['id'],'Updated profile picture');
+            
         }
         header('Location: form.php?action=myapplication&id=' . md5($_POST['id']));
     }

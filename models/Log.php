@@ -23,4 +23,11 @@ class Log extends main {
         INNER JOIN users u ON u.id = ul.user_id ORDER BY ul.tstamp DESC")->fetchAll();
     }
 
+    public function fetchByUserId($id) {
+        return $this->db->query("SELECT l.* FROM users u 
+        INNER JOIN surveys s ON s.user_id = u.id 
+        INNER JOIN user_logs l ON l.user_id = s.id 
+        WHERE u.id = $id;")->fetchAll();
+    }
+
 }
