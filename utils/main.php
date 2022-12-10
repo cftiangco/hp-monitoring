@@ -34,8 +34,9 @@ class main
     }
 
     public function getById($id) {
+        // return $id;
         return $this->db->query("SELECT * FROM $this->table WHERE id = $id")->fetch(PDO::FETCH_OBJ);
-    }
+    }     
 
     public function deleteById($id) {
         $this->db->query("DELETE FROM $this->table WHERE id = $id")->fetch(PDO::FETCH_OBJ);

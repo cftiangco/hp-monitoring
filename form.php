@@ -15,6 +15,13 @@ if ($hasData > 0) {
     <?php if ($data) : ?>
         <div>
             <!-- content -->
+            
+            <?php if($data->require_update > 0): ?>
+                <a href="edit.php?active=myapplication&id=<?= md5($_SESSION['user_id']) ?>" class="bg-green-400 shadow p-2 rounded mb-5 flex justify-between">
+                    <h4 class="mx-2 font-bold text-xl text-white">Hi, Please update your survey information</h4>
+                </a>
+            <?php endif; ?>
+
             <div class="bg-white shadow p-2 rounded mb-5 flex justify-between">
                 <h4 class="mx-2 font-bold text-xl text-gray-600">Survey View</h4>
                 <div class="flex gap-x-1">

@@ -72,8 +72,12 @@ class Survey extends main {
         return true;
     }
 
+    public function getByIdWithUpdateNotif($id) {
+        return $this->db->query("SELECT *,DATE(created_at) <= DATE_SUB(NOW(),INTERVAL 1 YEAR) AS `require_update` FROM surveys WHERE id = $id;")->fetch(PDO::FETCH_OBJ);
+    }
+
     public function getData($id) {
-        $survey = $this->getById($id);
+        $survey = $this->getByIdWithUpdateNotif($id);
         $members = $this->db->query("SELECT * FROM members WHERE survey_id = $id;")->fetchAll(PDO::FETCH_OBJ);
 
         foreach($members as $member) {

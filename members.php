@@ -10,7 +10,7 @@ $surveyId = isset($_GET['id']) && $_GET['id'] ? $_GET['id'] : $survey->getSurvey
 $data = $survey->getById($surveyId);
 
 function formatSalary($salary) {
-    if(!$salary) {
+    if(!$salary || $salary == "0") {
         return 0;
     }
 
@@ -30,6 +30,7 @@ function formatSalary($salary) {
     $temp = explode(',',$firstItem);
     return join("",$temp);
 }
+
 ?>
 <?php include './partials/header.php'; ?>
 
@@ -79,6 +80,7 @@ function formatSalary($salary) {
                     }
                 }).reduce((a,b) => parseInt(a)+parseInt(b))
             });
+
 
     },
     resetFields() {
@@ -650,7 +652,8 @@ function formatSalary($salary) {
 
     <div class="fixed bottom-0 left-0 right-1 w-screen z-50 p-3 bg-black bg-opacity-25">
         <div class="flex justify-end mr-10">
-            <h3 class="text-xl border px-5 bg-white rounded">Estimated Family income: <span x-text="currencyFormat(income + <?= formatSalary($data->household_head_salary) ?> + <?= formatSalary($data->partner_salary) ?>)"></span></h3>
+            <!-- <h3 class="text-xl border px-5 bg-white rounded">Estimated Family income: <span x-text="currencyFormat(income + <?= (int)formatSalary($data->household_head_salary) ?> + <?= (int)formatSalary($data->partner_salary) ?>)"></span></h3> -->
+            <h3 class="text-xl border px-5 bg-white rounded">Estimated Family income: <span x-text="currencyFormat(parseInt(income)+<?= ((int)formatSalary($data->household_head_salary)+(int)formatSalary($data->partner_salary)) ?>)"></span></h3>
         </div>
         <!-- <button type="submit" name="submit" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400 float-right mr-5 md:mr-10">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
