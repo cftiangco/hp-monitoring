@@ -27,6 +27,12 @@ if ($hasData > 0) {
                 </div>
             </div>
 
+            <?php if($data->picture): ?>
+                <div class="bg-white shadow p-2 rounded mb-5 flex justify-center">
+                    <img src="<?= $data->picture ?>" width="180">
+                </div>
+            <?php endif; ?>
+
             <div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4 bg-white shadow p-2 rounded">
 
                 <div class="flex flex-col">
@@ -111,104 +117,109 @@ if ($hasData > 0) {
 
             </div>
 
-            <hr class="w-40 h-3 bg-green-600 my-5">
             
-            <div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4 bg-white shadow p-2 rounded mt-3">
+            
+            <?php if($data->partner_name): ?>
+                    <hr class="w-40 h-3 bg-green-600 my-5">
 
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Asawa</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_name ?></p>
+                    <div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4 bg-white shadow p-2 rounded mt-3">
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Asawa</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_name ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Birthday</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->partner_birthday) ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Edad</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= getAge($data->partner_birthday) ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Nag Aral</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_student ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Level</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_grade ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Trabaho</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_occupation ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Buwanang Sahod</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_salary ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">PhilHealth Member</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_philhealth_member ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Buntis</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->partner_pregnant ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Age of Gestation</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->partner_age_of_gestation) ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">LMP</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->lmp) ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">EDC</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->edc) ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Nagpapasuso</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->breast_feeding ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Gumagamit ng Family Planning Method</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->family_planning_method ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Anong Method</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->family_planning_methodtype ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">My Disability</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->disability ?></p>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <p class="text-xs text-gray-400">Anong Disability</p>
+                        <p class="font-semibold text-lg text-gray-800"><?= $data->disability_type ?></p>
+                    </div>
+
                 </div>
 
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Birthday</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->partner_birthday) ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Edad</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= getAge($data->partner_birthday) ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Nag Aral</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_student ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Level</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_grade ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Trabaho</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_occupation ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Buwanang Sahod</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_salary ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">PhilHealth Member</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_philhealth_member ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Buntis</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_pregnant ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Age of Gestation</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->partner_age_of_gestation) ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">LMP</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->lmp) ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">EDC</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= dateFormat($data->edc) ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Nagpapasuso</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->breast_feeding ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Gumagamit ng Family Planning Method</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->family_planning_method ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Anong Method</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->family_planning_methodtype ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">My Disability</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->disability ?></p>
-                </div>
-
-                <div class="flex flex-col">
-                    <p class="text-xs text-gray-400">Anong Disability</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->disability_type ?></p>
-                </div>
-
-            </div>
+            <?php endif; ?>
 
             <div class="flex justify-end my-2">
-                <a href="edit.php?active=myapplication&id=<?= md5($_SESSION['user_id']) ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-                    <span class="hidden md:block">Edit Survey</span>
-                </a>
+                    <a href="edit.php?active=myapplication&id=<?= md5($_SESSION['user_id']) ?>" class="bg-yellow-500 text-xs text-white px-2 py-1 rounded hover:bg-yellow-400 flex items-center gap-x-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                        <span class="hidden md:block">Edit Survey</span>
+                    </a>
             </div>
     
             <?php if (property_exists($data, 'members')) : ?>

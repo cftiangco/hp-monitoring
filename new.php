@@ -7,6 +7,14 @@ $required = true;
 if(isset($_POST['submit'])) {
     $survey = new Survey();
 
+     /* upload logic */
+     $target_dir = "public/images/";
+     $fileName = $_FILES['picture']['name'];
+     $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);;
+     $uploadPath = $target_dir . uniqid() . '.' . $fileExtension;
+     $fileTmpName  = $_FILES['picture']['tmp_name']; 
+     /* upload logic */
+
     $values = [
         'purok' => $_POST['purok'],
         'hh_no' => $_POST['hh_no'],
@@ -35,6 +43,7 @@ if(isset($_POST['submit'])) {
         'disability' => $_POST['disability'],
         'user_id' => $_POST['user_id'],
         'civil_status' => $_POST['civil_status'],
+        'picture' => $uploadPath,
     ];
 
     if($_POST['household_head_occupation'] != "Unemployed") {
@@ -76,6 +85,7 @@ if(isset($_POST['submit'])) {
     $result = $survey->create($values);
 
     if($result) {
+        move_uploaded_file($fileTmpName, $uploadPath);
         header('Location: members.php?active=surveys&id=' . $result->id);
     }
 }
@@ -138,7 +148,7 @@ if(isset($_POST['submit'])) {
     }
 }">
     <div class="h-auto w-full bg-white shadow rounded mt-5 mb-20">
-        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" onsubmit="return confirm('Are you sure you want to Submit?');">
+        <form action="<?= $_SERVER['PHP_SELF'] ?>" method="POST" onsubmit="return confirm('Are you sure you want to Submit?');" enctype="multipart/form-data">
             <div class="p-3">
                 
                 <input type="hidden" name="user_id" value="<?= $_SESSION['user_id'] ?>">
@@ -304,6 +314,11 @@ if(isset($_POST['submit'])) {
                     <div class="flex flex-col gap-y-2 mb-3" x-show="householdHeadDisability === 'y'">
                         <label for="household_head_disability_type">Anong Disability</label>
                         <input type="text" name="household_head_disability_type" id="household_head_disability_type" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" x-model="householdHeadDisabilityText" x-bind:class="householdHeadDisabilityLogic ? 'bg-gray-100 hover:bg-gray-100 hover:cursor-not-allowed':''" x-bind:disabled="householdHeadDisabilityLogic">
+                    </div>
+
+                    <div class="flex flex-col gap-y-2 mb-3">
+                        <label for="household_head_disability_type">Picture</label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" name="picture" id="picture" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" required>
                     </div>
 
                 </div>

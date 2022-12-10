@@ -95,4 +95,12 @@ class Survey extends main {
         return $this->db->query("SELECT * FROM surveys WHERE md5(user_id) = '$userId'")->fetch(PDO::FETCH_OBJ);
     }
 
+    public function updatePicture($id,$fileName) {
+        $picture = $this->db->query("SELECT picture FROM surveys WHERE id = $id")->fetchColumn();
+        if(file_exists($picture)){
+            unlink($picture);
+        }
+        return $this->db->exec("UPDATE surveys SET picture = '$fileName' WHERE id = $id");
+    }   
+
 }

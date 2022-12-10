@@ -72,7 +72,16 @@ $occupations = [
    'Unemployed',
    'Part-time',
    'Full-time',
-   'Other (Please specify)'
+   'Health Care/ Medical',
+   'Household Service Worker',
+   'General Work Service',
+   'Manufacturer',
+   'Hospitality-related work',
+   'Teacher',
+   'Labor / Construction',
+   'Sea-based worker',
+   'Freelancing',
+   'Other (Please specify)',
 ];
 
 $salaries = [

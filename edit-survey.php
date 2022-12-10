@@ -55,14 +55,21 @@ if (isset($_POST['update'])) {
         'id' => $_POST['id']
     ];
 
-    // print_r($values);
-    // echo json_encode($values);
-    // return;
-
 
     $result = $survey->update($values);
 
     if ($result) {
+
+        if($_FILES['picture']['name']) {
+            $target_dir = "public/images/";
+            $fileName = $_FILES['picture']['name'];
+            $fileExtension = pathinfo($fileName, PATHINFO_EXTENSION);;
+            $uploadPath = $target_dir . uniqid() . '.' . $fileExtension;
+            $fileTmpName  = $_FILES['picture']['tmp_name'];
+            $survey->updatePicture($_POST['id'],$uploadPath);
+            move_uploaded_file($fileTmpName, $uploadPath); 
+        }
+
         header('Location: members.php?id=' . $_POST['id']);
     }
 }
@@ -128,7 +135,7 @@ if (isset($_POST['update'])) {
     }
 }">
     <div class="h-auto w-full bg-white shadow rounded mt-5 mb-20">
-        <form action="<?= $_SERVER['PHP_SELF'] ?>?id=<?= $_GET['id'] ?>" method="POST" onsubmit="return confirm('Are you sure you want to Submit?');">
+        <form action="<?= $_SERVER['PHP_SELF'] ?>?id=<?= $_GET['id'] ?>" method="POST" onsubmit="return confirm('Are you sure you want to Submit?');" enctype="multipart/form-data">
             <div class="p-3">
                 <input type="hidden" name="id" value="<?= $_GET['id'] ?>">
 
@@ -293,6 +300,11 @@ if (isset($_POST['update'])) {
                     <div class="flex flex-col gap-y-2 mb-3" x-show="householdHeadDisability === 'y'">
                         <label for="household_head_disability_type">Anong Disability</label>
                         <input type="text" name="household_head_disability_type" id="household_head_disability_type" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" x-model="householdHeadDisabilityText">
+                    </div>
+
+                    <div class="flex flex-col gap-y-2 mb-3">
+                        <label for="household_head_disability_type">Picture</label>
+                        <input type="file" accept="image/png, image/gif, image/jpeg" name="picture" id="picture" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                     </div>
 
                 </div>

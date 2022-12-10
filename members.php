@@ -21,7 +21,7 @@ function formatSalary($salary) {
     }
 
     if(strpos($salary,">") !== false) {
-        $arrG1 = explode('>',$salary)[1];
+        $arrG1 = explode('>',$salary)[0];
         $arrG2 = explode(',',$arrG1);
         return  join("",$arrG2);
     }
