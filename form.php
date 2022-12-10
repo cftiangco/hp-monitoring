@@ -112,7 +112,7 @@ if ($hasData > 0) {
             </div>
 
             <hr class="w-40 h-3 bg-green-600 my-5">
-
+            
             <div class="grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-4 bg-white shadow p-2 rounded mt-3">
 
                 <div class="flex flex-col">

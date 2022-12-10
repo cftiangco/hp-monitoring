@@ -91,6 +91,13 @@ $grades = [
     'Masteral'
  ];
 
+ $civilStatus = [
+    'Single',
+    'Separated',
+    'Widowed',
+    'Married',
+ ];
+
 function extractPayload() {
     $json = file_get_contents('php://input',true);
     return json_decode($json,JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
@@ -140,6 +147,9 @@ function userSession($user) {
 }
 
 function dateFormat($date) {
+    if($date == "0000-00-00") {
+        return '';
+    }
     return date('m/d/Y',strtotime($date));
 }
 

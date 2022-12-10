@@ -8,6 +8,28 @@ $survey = new Survey();
 
 $surveyId = isset($_GET['id']) && $_GET['id'] ? $_GET['id'] : $survey->getSurveyId($_GET['user_id']);
 $data = $survey->getById($surveyId);
+
+function formatSalary($salary) {
+    if(!$salary) {
+        return 0;
+    }
+
+    if(strpos($salary,"<") !== false) {
+        $arr1 = explode('<',$salary)[1];
+        $arr2 = explode(',',$arr1);
+        return  join("",$arr2);
+    }
+
+    if(strpos($salary,">") !== false) {
+        $arrG1 = explode('>',$salary)[1];
+        $arrG2 = explode(',',$arrG1);
+        return  join("",$arrG2);
+    }
+
+    $firstItem = explode('-',$salary)[0];
+    $temp = explode(',',$firstItem);
+    return join("",$temp);
+}
 ?>
 <?php include './partials/header.php'; ?>
 
@@ -53,13 +75,11 @@ $data = $survey->getById($surveyId);
                 this.members = data.data;
                 this.income = this.members.map((m) => {
                     if(m.salary != '') {
-                        console.log(`salary :`,m.salary);
                         return m.salary.split('-')[0].replace(/[-,<>]/g,'');
                     }
                 }).reduce((a,b) => parseInt(a)+parseInt(b))
             });
 
-            console.log(`income`,this.income);
     },
     resetFields() {
         this.lastname = '';
@@ -114,8 +134,6 @@ $data = $survey->getById($surveyId);
             user_id : <?= $_SESSION['user_id'] ? $_SESSION['user_id'] : 0 ?>
         };
 
-        console.log('payload',payload);
-
         if(this.lastname === '') {
             this.errors.push('lastname is required');
         }
@@ -141,7 +159,6 @@ $data = $survey->getById($surveyId);
                     }
                 });
             } else {
-                console.log('trigger update')
                 postData('api/members.php?action=update', payload)
                 .then((data) => {
                     this.isModalChildrenOpen = false;
@@ -156,7 +173,13 @@ $data = $survey->getById($surveyId);
 
     },
     handleEdit(data) {
-        console.log(data);
+        if(this.getAge(data.birthday) <= 3) {
+            console.log(`infant`)
+            this.isInfant = true;
+        } else {
+            console.log(`no`)
+            this.isInfant = false;
+        }
         this.other_work = data.other_work;
         this.survey_id = data.survey_id;
         this.firstname = data.firstname;
@@ -251,7 +274,6 @@ $data = $survey->getById($surveyId);
         return formatter.format(price ?? 0); 
     },
     getAge(dateString) {
-        console.log('date string',dateString)
         var today = new Date();
         var birthDate = new Date(dateString);
         var age = today.getFullYear() - birthDate.getFullYear();
@@ -262,13 +284,13 @@ $data = $survey->getById($surveyId);
         return age;
     },
     handleChangeBirthday() {
-        if(this.getAge(this.birthday) <= 6) {
+        if(this.getAge(this.birthday) <= 3) {
             this.isInfant = true;
         } else {
             this.isInfant = false;
         }
         console.log(`is infant: `,this.isInfant);
-    }
+    },
 }">
     <section>
         <div class="h-12 w-full bg-green-600 text-white shadow rounded flex justify-between items-center">
@@ -628,7 +650,7 @@ $data = $survey->getById($surveyId);
 
     <div class="fixed bottom-0 left-0 right-1 w-screen z-50 p-3 bg-black bg-opacity-25">
         <div class="flex justify-end mr-10">
-            <h3 class="text-xl border px-5 bg-white rounded">Estimated Family income: <span x-text="currencyFormat(income)"></span></h3>
+            <h3 class="text-xl border px-5 bg-white rounded">Estimated Family income: <span x-text="currencyFormat(income + <?= formatSalary($data->household_head_salary) ?> + <?= formatSalary($data->partner_salary) ?>)"></span></h3>
         </div>
         <!-- <button type="submit" name="submit" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400 float-right mr-5 md:mr-10">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">

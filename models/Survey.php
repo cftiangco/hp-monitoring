@@ -46,7 +46,8 @@ class Survey extends main {
             edc = :edc,
             breast_feeding = :breast_feeding,
             family_planning_method = :family_planning_method,
-            family_planning_methodtype = :family_planning_methodtype
+            family_planning_methodtype = :family_planning_methodtype,
+            civil_status = :civil_status
             WHERE id = :id
         ");
 

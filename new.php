@@ -34,6 +34,7 @@ if(isset($_POST['submit'])) {
         'family_planning_method' => $_POST['family_planning_method'],
         'disability' => $_POST['disability'],
         'user_id' => $_POST['user_id'],
+        'civil_status' => $_POST['civil_status'],
     ];
 
     if($_POST['household_head_occupation'] != "Unemployed") {
@@ -102,6 +103,8 @@ if(isset($_POST['submit'])) {
     familyPlanningMethodText:'',
     houseHoldHeadStudent:'n',
     partnerStudent:'n',
+    civilStatus:'Single',
+    householdHeadGender:'m',
     householdHeadChangeDisability() {
         if(this.householdHeadDisability === 'y') {
             this.householdHeadDisabilityLogic = false;
@@ -124,6 +127,14 @@ if(isset($_POST['submit'])) {
     },
     handleFamilyPlanningMethodChange() {
         this.familyPlanningMethodText = '';
+    },
+    handleChangeHouseholdGender() {
+        console.log(`gender`,this.householdHeadGender)
+        if(this.householdHeadGender === 'm') {
+            this.partnerGender = 'f';
+        } else {
+            this.partnerGender = 'm';
+        }
     }
 }">
     <div class="h-auto w-full bg-white shadow rounded mt-5 mb-20">
@@ -241,13 +252,22 @@ if(isset($_POST['submit'])) {
                         <div class="flex gap-x-3 py-2 px-2 shadow rounded">
                             <div>
                                 <label for="household_head_gender">Male</label>
-                                <input type="radio" name="household_head_gender" id="household_head_gender_y" value="m" checked="checked">
+                                <input type="radio" name="household_head_gender" id="household_head_gender_y" value="m" checked="checked" x-model="householdHeadGender"  @change="handleChangeHouseholdGender()">
                             </div>
                             <div>
                                 <label for="household_head_disability_n">Female</label>
-                                <input type="radio" name="household_head_gender" id="household_head_gender_n" value="f">
+                                <input type="radio" name="household_head_gender" id="household_head_gender_n" value="f" x-model="householdHeadGender" @change="handleChangeHouseholdGender()">
                             </div>
                         </div>
+                    </div>
+
+                    <div class="flex flex-col gap-y-2 mb-3">
+                        <label for="partner_occupation">Civil Status</label>
+                        <select name="civil_status" id="civil_status" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?> x-model="civilStatus">
+                            <?php foreach ($civilStatus as $key => $value) : ?>
+                                <option value="<?= $value ?>"><?= $value ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
 
                     <div class="flex flex-col gap-y-2 mb-3">
@@ -289,141 +309,141 @@ if(isset($_POST['submit'])) {
                 </div>
 
                 <!-- ============= END ROW 1 ================ -->
-                
-                <hr class="w-40 h-3 bg-green-600 my-5">
+                <div x-show="civilStatus !== 'Single' ">
+                    <hr class="w-40 h-3 bg-green-600 my-5">
 
-                <!-- ============= ROW 2 ================ -->
+                    <!-- ============= ROW 2 ================ -->
 
-                <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
+                    <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
 
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_name">Asawa</label>
-                        <input type="text" name="partner_name" id="partner_name" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_name">Asawa</label>
+                            <input type="text" name="partner_name" id="partner_name" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        </div>
+
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_birthday">Birthday</label>
+                            <input type="date" name="partner_birthday" id="partner_birthday" max="<?= date('Y-m-d'); ?>" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                        </div>
+
                     </div>
 
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_birthday">Birthday</label>
-                        <input type="date" name="partner_birthday" id="partner_birthday" max="<?= date('Y-m-d'); ?>" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
+                    <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
+
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_student">Nag-aral</label>
+                            <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                <div>
+                                    <label for="partner_student_y">Yes</label>
+                                    <input type="radio" name="partner_student" id="partner_student_y" value="y" x-model="partnerStudent">
+                                </div>
+                                <div>
+                                    <label for="partner_student_n">No</label>
+                                    <input type="radio" name="partner_student" id="partner_student_n" value="n" checked="checked" x-model="partnerStudent">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-y-2 mb-3" x-show="partnerStudent === 'y'">
+                            <label for="partner_grade">Grade</label>
+                            <select name="partner_grade" id="partner_grade" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
+                                <?php foreach ($grades as $key => $value) : ?>
+                                    <option value="<?= $value ?>"><?= $value ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_occupation">Trabaho</label>
+                            <select name="partner_occupation" id="partner_occupation" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?> x-model="partnerOccupation" :change="handlePartnerOccupationChange">
+                                <?php foreach ($occupations as $key => $value) : ?>
+                                    <option value="<?= $value ?>"><?= $value ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+
                     </div>
 
-                </div>
-
-                <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
-
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_student">Nag-aral</label>
-                        <div class="flex gap-x-3 py-2 px-2 shadow rounded">
-                            <div>
-                                <label for="partner_student_y">Yes</label>
-                                <input type="radio" name="partner_student" id="partner_student_y" value="y" x-model="partnerStudent">
-                            </div>
-                            <div>
-                                <label for="partner_student_n">No</label>
-                                <input type="radio" name="partner_student" id="partner_student_n" value="n" checked="checked" x-model="partnerStudent">
-                            </div>
+                    <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5" x-show="partnerOccupation === 'Other (Please specify)' ">
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_occupation_other">Other work, Please specify</label>
+                            <input type="text" name="partner_occupation_other" id="partner_occupation_other" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
                         </div>
                     </div>
 
-                    <div class="flex flex-col gap-y-2 mb-3" x-show="partnerStudent === 'y'">
-                        <label for="partner_grade">Grade</label>
-                        <select name="partner_grade" id="partner_grade" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?>>
-                            <?php foreach ($grades as $key => $value) : ?>
-                                <option value="<?= $value ?>"><?= $value ?></option>
-                            <?php endforeach; ?>
-                        </select>
+                    <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
+                        <div class="flex flex-col gap-y-2 mb-3" x-show="partnerOccupation !== 'Unemployed'">
+                            <label for="partner_salary">Buwanang Sahod</label>
+                            <select name="partner_salary" id="partner_salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" x-bind:class="partnerOccupation === 'Unemployed' ? 'bg-gray-100 hover:bg-gray-100 hover:cursor-not-allowed':''" x-bind:disabled="partnerOccupation === 'Unemployed' " <?= $required ? 'required' : '' ?> required>
+                                <?php foreach ($salaries as $key => $value) : ?>
+                                    <option value="<?= $value ?>"><?= $value ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>          
                     </div>
 
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_occupation">Trabaho</label>
-                        <select name="partner_occupation" id="partner_occupation" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" <?= $required ? 'required' : '' ?> x-model="partnerOccupation" :change="handlePartnerOccupationChange">
-                            <?php foreach ($occupations as $key => $value) : ?>
-                                <option value="<?= $value ?>"><?= $value ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
 
-
-                </div>
-
-                <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5" x-show="partnerOccupation === 'Other (Please specify)' ">
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_occupation_other">Other work, Please specify</label>
-                        <input type="text" name="partner_occupation_other" id="partner_occupation_other" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
-                    <div class="flex flex-col gap-y-2 mb-3" x-show="partnerOccupation !== 'Unemployed'">
-                        <label for="partner_salary">Buwanang Sahod</label>
-                        <select name="partner_salary" id="partner_salary" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" x-bind:class="partnerOccupation === 'Unemployed' ? 'bg-gray-100 hover:bg-gray-100 hover:cursor-not-allowed':''" x-bind:disabled="partnerOccupation === 'Unemployed' " <?= $required ? 'required' : '' ?> required>
-                            <?php foreach ($salaries as $key => $value) : ?>
-                                <option value="<?= $value ?>"><?= $value ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>          
-                </div>
-
-                <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
-
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_gender">Gender</label>
-                        <div class="flex gap-x-3 py-2 px-2 shadow rounded">
-                            <div>
-                                <label for="partner_gender_m">Male</label>
-                                <input type="radio" name="partner_gender" id="partner_gender_m" x-model="partnerGender" @change="handleChangePartnerGender()" value="m" checked="checked">
-                            </div>
-                            <div>
-                                <label for="partner_gender_f">Female</label>
-                                <input type="radio" name="partner_gender" id="partner_gender_f" x-model="partnerGender" @change="handleChangePartnerGender()" value="f">
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_gender">Gender</label>
+                            <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                <div>
+                                    <label for="partner_gender_m">Male</label>
+                                    <input type="radio" name="partner_gender" id="partner_gender_m" x-model="partnerGender" @change="handleChangePartnerGender()" value="m" checked="checked" disabled>
+                                </div>
+                                <div>
+                                    <label for="partner_gender_f">Female</label>
+                                    <input type="radio" name="partner_gender" id="partner_gender_f" x-model="partnerGender" @change="handleChangePartnerGender()" value="f" disabled>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="partner_philhealth_member">Philhealth Member</label>
-                        <div class="flex gap-x-3 py-2 px-2 shadow rounded">
-                            <div>
-                                <label for="partner_philhealth_member_y">Yes</label>
-                                <input type="radio" name="partner_philhealth_member" id="partner_philhealth_member_y" value="y">
-                            </div>
-                            <div>
-                                <label for="partner_philhealth_member_n">No</label>
-                                <input type="radio" name="partner_philhealth_member" id="partner_philhealth_member_n" value="n" checked="checked">
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
-
-                    <div class="flex flex-col gap-y-2 mb-3">
-                        <label for="disability">May Disability</label>
-                        <div class="flex gap-x-3 py-2 px-2 shadow rounded">
-                            <div>
-                                <label for="disability_y">Yes</label>
-                                <input type="radio" name="disability" id="disability_y" x-model="disability" @change="handleDisabilityChange()" value="y">
-                            </div>
-                            <div>
-                                <label for="disability_n">No</label>
-                                <input type="radio" name="disability" id="disability_n" x-model="disability" @change="handleDisabilityChange()" value="n" checked="checked">
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="partner_philhealth_member">Philhealth Member</label>
+                            <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                <div>
+                                    <label for="partner_philhealth_member_y">Yes</label>
+                                    <input type="radio" name="partner_philhealth_member" id="partner_philhealth_member_y" value="y">
+                                </div>
+                                <div>
+                                    <label for="partner_philhealth_member_n">No</label>
+                                    <input type="radio" name="partner_philhealth_member" id="partner_philhealth_member_n" value="n" checked="checked">
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <div class="flex flex-col gap-y-2 mb-3" x-show="disability === 'y'">
-                        <label for="disability_type">Anong Disability</label>
-                        <input type="text" name="disability_type" id="disability_type" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" x-model="disabilityText" x-bind:class="disability === 'n' ? 'bg-gray-100 hover:bg-gray-100 hover:cursor-not-allowed':''" x-bind:disabled="disability === 'n'">
-                    </div>
+                    <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
 
+                        <div class="flex flex-col gap-y-2 mb-3">
+                            <label for="disability">May Disability</label>
+                            <div class="flex gap-x-3 py-2 px-2 shadow rounded">
+                                <div>
+                                    <label for="disability_y">Yes</label>
+                                    <input type="radio" name="disability" id="disability_y" x-model="disability" @change="handleDisabilityChange()" value="y">
+                                </div>
+                                <div>
+                                    <label for="disability_n">No</label>
+                                    <input type="radio" name="disability" id="disability_n" x-model="disability" @change="handleDisabilityChange()" value="n" checked="checked">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-y-2 mb-3" x-show="disability === 'y'">
+                            <label for="disability_type">Anong Disability</label>
+                            <input type="text" name="disability_type" id="disability_type" class="bg-gray-50 outline-none border px-3 py-2 rounded w-auto hover:border-2 hover:border-blue-300 hover:bg-white" x-model="disabilityText" x-bind:class="disability === 'n' ? 'bg-gray-100 hover:bg-gray-100 hover:cursor-not-allowed':''" x-bind:disabled="disability === 'n'">
+                        </div>
+
+                    </div>
                 </div>
-
                 <!-- ============= END ROW 2 ================ -->
                 
                 <!-- ============= ROW 3 ================ -->
 
                 <!-- if female -->
-                <div x-show="partnerGender !== 'm' ">
+                <div x-show="partnerGender !== 'm' && civilStatus !== 'Single' && householdHeadGender === 'm' ">
                     <hr class="w-40 h-3 bg-green-600 my-5">
 
                     <div class="grid grid-cols-1 gap-1 md:grid-cols-3 md:gap-3 md:space-x-5">
