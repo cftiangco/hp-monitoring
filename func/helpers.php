@@ -117,31 +117,31 @@ function getRelationship($id) {
         case 1:
             return 'Son';
         break;
-        case 1:
+        case 2:
             return 'Daughter';
         break;
-        case 2:
+        case 3:
             return 'Mother';
         break;
-        case 3:
+        case 4:
             return 'Father';
         break;
-        case 4:
+        case 5:
             return 'Grandfather';
         break;
-        case 5:
+        case 6:
             return 'Grandmother';
         break;
-        case 6:
+        case 7:
             return 'Cousin';
         break;
-        case 7:
+        case 8:
             return 'Aunt';
         break;
-        case 8:
+        case 9:
             return 'Uncle';
         break;
-        case 9:
+        case 10:
             return 'Other Member';
         break;
     }

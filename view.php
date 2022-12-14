@@ -241,7 +241,7 @@
                                     <td class="border border-slate-300"><?= getRelationship($member->type_id) ?></td>
                                     <td class="border border-slate-300"><?=$member->lastname?>, <?=$member->firstname?> <?=$member->middlename?></td>
                                     <td class="border border-slate-300"><?= dateFormat($member->birthday) ?></td>
-                                    <td class="border border-slate-300"><?= $member->age ?></td>
+                                    <td class="border border-slate-300"><?= getAge($member->birthday) ?></td>
                                     <td class="border border-slate-300"><?= $member->studying ?>/<?= $member->grade ?></td>
                                     <td class="border border-slate-300"><?= $member->occupation ? $member->occupation:'N' ?>/<?= $member->salary ?></td>
                                     <td class="border border-slate-300"><?= $member->breast_feeding ?></td>

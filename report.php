@@ -48,7 +48,7 @@ class PDF extends FPDF
         $this->Cell(80);
         $this->Cell(198, 10, 'FAMILY PROFILE Survey Form', 0, 0, 'C');
 
-        $this->Ln(20);
+        $this->Ln(10);
     }
 
     function Footer()
@@ -68,7 +68,7 @@ class PDF extends FPDF
         $this->Cell(23, 7, dateFormat($data->birthday), 'B', 0, 0, '');
 
         $this->setX(90);
-        $this->Cell(9, 7, $data->age, 'B', 0, 0, '');
+        $this->Cell(9, 7, getAge($data->birthday), 'B', 0, 0, '');
 
         $this->setX(102);
         $this->Cell(35, 7, $data->studying . ' / ' . $data->grade, 'B', 0, 0, '');
@@ -166,10 +166,10 @@ $pdf->Cell(15, 7, 'Trabaho', 0, 0, '');
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(30, 5, $data->household_head_occupation, 'B', 0, '');
 
-$pdf->setX(245);
+$pdf->setX(247);
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->Cell(27, 7, 'Buwanang Sahod', 0, 0, '');
-$pdf->SetFont('Arial', '', 9);
+$pdf->SetFont('Arial', '', 6);
 $pdf->Cell(15, 5, $data->household_head_salary, 'B', 0, '');
 
 $pdf->setX(290);
@@ -219,10 +219,10 @@ $pdf->Cell(15, 7, 'Trabaho', 0, 0, '');
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(30, 5, $data->partner_occupation, 'B', 0, '');
 
-$pdf->setX(245);
+$pdf->setX(247);
 $pdf->SetFont('Arial', 'B', 9);
 $pdf->Cell(27, 7, 'Buwanang Sahod', 0, 0, '');
-$pdf->SetFont('Arial', '', 9);
+$pdf->SetFont('Arial', '', 6);
 $pdf->Cell(15, 5, $data->partner_salary, 'B', 0, '');
 
 $pdf->setX(290);
@@ -239,13 +239,13 @@ $pdf->Cell(10, 5, $data->partner_pregnant . ' / ' . $data->partner_age_of_gestat
 
 $pdf->setX(75);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(10, 7, 'LMP', 0, 0, '');
+$pdf->Cell(6.9, 7, 'LMP', 0, 0, '');
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(10, 5, dateFormat($data->lmp), 'B', 0, '');
 
 $pdf->setX(103);
 $pdf->SetFont('Arial', 'B', 9);
-$pdf->Cell(10, 7, 'EDC', 0, 0, '');
+$pdf->Cell(7, 7, 'EDC', 0, 0, '');
 $pdf->SetFont('Arial', '', 9);
 $pdf->Cell(10, 5, dateFormat($data->edc), 'B', 0, '');
 
