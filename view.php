@@ -72,7 +72,7 @@
 
             <div class="flex flex-col">
                 <p class="text-xs text-gray-400">Edad</p>
-                <p class="font-semibold text-lg text-gray-800"><?= $data->household_head_age ?></p>
+                <p class="font-semibold text-lg text-gray-800"><?= getAge($data->household_head_birthday) ?></p>
             </div>
 
             <div class="flex flex-col">
@@ -134,7 +134,7 @@
 
                 <div class="flex flex-col">
                     <p class="text-xs text-gray-400">Edad</p>
-                    <p class="font-semibold text-lg text-gray-800"><?= $data->partner_age ?></p>
+                    <p class="font-semibold text-lg text-gray-800"><?= getAge($data->partner_birthday) ?></p>
                 </div>
 
                 <div class="flex flex-col">

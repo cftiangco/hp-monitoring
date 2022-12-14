@@ -174,7 +174,7 @@ function getRole($roleId) {
     <section>
         <div class="h-16 w-full bg-white shadow rounded flex justify-between items-center">
             <h4 class="mx-5 font-semibold">Account</h4>
-            <div class="flex justify-end mx-5 text-sm">
+            <!-- <div class="flex justify-end mx-5 text-sm">
                 <?php if ($isAdmin) : ?>
                     <button type="submit" @click="openModal()" class="bg-green-600 text-white py-2 px-5 rounded flex items-center gap-x-1 hover:bg-green-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -183,7 +183,7 @@ function getRole($roleId) {
                         <span>Add User</span>
                     </button>
                 <?php endif; ?>
-            </div>
+            </div> -->
         </div>
     </section>
 
