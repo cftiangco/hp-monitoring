@@ -27,15 +27,22 @@ class DasBoard extends main {
     }
 
     public function workers() {
-        return $this->db->query("SELECT COUNT(*) FROM members WHERE occupation != 'Unemployed'")->fetchColumn();
+        return $this->db->query("SELECT 
+            (SELECT COUNT(*) FROM members WHERE occupation != 'Unemployed') + 
+            (SELECT COUNT(*) FROM surveys WHERE household_head_occupation != 'Unemployed') + 
+            (SELECT COUNT(*) FROM surveys WHERE partner_occupation != 'Unemployed');")->fetchColumn();
     }
 
     public function disabilities() {
-        return $this->db->query("SELECT COUNT(*) FROM members WHERE disability = 'y';")->fetchColumn();
+        return $this->db->query("SELECT 
+        (SELECT COUNT(*) FROM surveys WHERE household_head_disability = 'y') + 
+        (SELECT COUNT(*) FROM surveys WHERE disability = 'y') + 
+        (SELECT COUNT(*) FROM members WHERE disability = 'y');")->fetchColumn();
     }
 
     public function breastFeed() {
-        return $this->db->query("SELECT COUNT(*) FROM members WHERE breast_feeding = 'y';")->fetchColumn();
+        return $this->db->query("SELECT COUNT(*) FROM members
+                                 WHERE breast_feeding = 'y' OR bottle_feeding = 'y' OR mix_feeding = 'y';")->fetchColumn();
     }
 
     public function scholars() {
